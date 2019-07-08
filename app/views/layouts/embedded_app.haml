@@ -1,0 +1,31 @@
+!!!
+%html{lang: "en"}
+  %head
+    %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{charset: "utf-8"}/
+
+    - # Title
+    %title= ShopifyApp.configuration.application_name
+
+    - # General
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application', "data-turbolinks-track" => true
+
+    - # Rails
+    = csrf_meta_tags
+
+  %body
+    .app-wrapper
+      .app-content
+        %main{role: "main"}
+          = yield
+    = render 'layouts/flash_messages'
+    %script{src: "https://cdn.shopify.com/s/assets/external/app.js?#{Time.now.strftime('%Y%m%d%H')}"}
+    = content_tag(:div, nil, id: 'shopify-app-init', data: {              |
+        api_key: ShopifyApp.configuration.api_key,                        |
+        shop_origin: ("https://#{ @shop_session.url }" if @shop_session), |
+        debug: Rails.env.development?                                     |
+      } )                                                                 |
+    - if content_for?(:javascript)
+      #ContentForJavascript{"data-turbolinks-temporary" => ""}
+        = yield :javascript
