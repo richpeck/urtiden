@@ -82,5 +82,8 @@ gem 'bootsnap', '~> 1.3', '>= 1.3.2', require: false  # => Boot caching (introdu
 gem 'friendly_id', github: 'norman/friendly_id'       # => Fixes for Rails 6.0.0.rc1
 gem 'faraday', '~> 0.15.4'                            # => Faraday (used for API connection)
 
+## Data Management ##
+gem 'activerecord-import', '~> 1.0', '>= 1.0.1'       # => Whilst upsert_all in beta // https://github.com/zdennis/activerecord-import
+
 ########################################
 ########################################

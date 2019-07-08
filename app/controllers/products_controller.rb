@@ -14,6 +14,12 @@
 ############################################################
 ############################################################
 
+## Libs ##
+require 'csv'
+
+############################################################
+############################################################
+
 # frozen_string_literal: true
 
 ## Products Controller ##
@@ -59,7 +65,16 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Show response (might be huge) ##
     ## This is where we should put all the products into the local db ##
-    Rails.logger.info response.body
+    csv = CSV.parse(response.body, headers: :first_row, col_sep: ";").map(&:to_h)
+
+    Rails.logger.info csv.first.keys
+    Rails.logger.info csv.first.dig("id_product")
+
+    ## Products ##
+    ## Create values locally ##
+    csv.each do |item|
+      Rails.logger.info item.dig("name")
+    end
 
     ## Nothing to show ##
     ## Just redirect back to index ##
