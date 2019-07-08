@@ -24,9 +24,9 @@ if Object.const_defined?("ShopifyApp")
 
   # => Shopify App Auth
   ShopifyApp.configure do |config|
-    config.application_name = Rails.application.credentials.dig(:shopify, :name)
-    config.api_key          = Rails.application.credentials.dig(:shopify, :api)
-    config.secret           = Rails.application.credentials.dig(:shopify, :secret)
+    config.application_name = Rails.application.credentials.dig(Rails.env.to_sym, :shopify, :name)
+    config.api_key          = Rails.application.credentials.dig(Rails.env.to_sym, :shopify, :api)
+    config.secret           = Rails.application.credentials.dig(Rails.env.to_sym, :shopify, :secret)
     config.scope            = "write_products" # Consult this page for more scope options:
                                                # https://help.shopify.com/en/api/getting-started/authentication/oauth/scopes
     config.embedded_app = true
