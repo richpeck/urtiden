@@ -16,8 +16,9 @@
 ############################################
 ############################################
 
-# => Middleware 
+# => Middleware
 Rails.application.config.middleware.use OmniAuth::Builder do
+  # frozen_string_literal: true
 
   # => Shopify oAuth
   provider :shopify,

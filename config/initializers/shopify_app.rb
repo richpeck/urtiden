@@ -20,6 +20,8 @@
 # => Requires autoloading of models etc
 if Object.const_defined?("ShopifyApp")
 
+  # frozen_string_literal: true
+
   # => Shopify App Auth
   ShopifyApp.configure do |config|
     config.application_name = Rails.application.credentials.dig(:shopify, :name)
