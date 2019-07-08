@@ -17,7 +17,7 @@ class CreateShops < ActiveRecord::Migration::Current
 
   ## Up ##
   def up
-    create_table :shops, if_exists: false  do |t|
+    create_table :shops do |t|
       t.string :shopify_domain, null: false
       t.string :shopify_token, null: false
       t.timestamps
