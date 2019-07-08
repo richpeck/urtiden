@@ -17,7 +17,7 @@
 ########################################
 
 ## Routes ##
-## More in FL Gem ##
+## Since we are using the ShopifyApp gem, we are able to integrate directly ##
 Rails.application.routes.draw do
   root to: 'products#index' # => ShopifyApp (this is used to show the "authenticated" page)
   mount ShopifyApp::Engine, at: '/' # => ShopifyApp Engine (required for oAuth etc)
