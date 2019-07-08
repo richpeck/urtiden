@@ -1,0 +1,10 @@
+- content_for :javascript do
+  :javascript
+      ShopifyApp.ready(function(){
+        ShopifyApp.Bar.initialize({ title: "Home" });
+      });
+
+%h2 Products
+%ul
+  - @products.each do |product|
+    %li= link_to product.title, "https://#{@shop_session.domain}/admin/products/#{product.id}", target: "_top"
