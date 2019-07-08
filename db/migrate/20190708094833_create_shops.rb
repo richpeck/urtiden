@@ -1,6 +1,23 @@
-class CreateShops < ActiveRecord::Migration[6.0]
-  def self.up
-    create_table :shops  do |t|
+############################################################
+############################################################
+##          ____ _                 _  __                  ##
+##        /  ___| |               (_)/ _|                 ##
+##        \ `--.| |__   ___  _ __  _| |_ _   _            ##
+##         `--. \ '_ \ / _ \| '_ \| |  _| | | |           ##
+##        /\__/ / | | | (_) | |_) | | | | |_| |           ##
+##        \____/|_| |_|\___/| .__/|_|_|  \__, |           ##
+##                          | |           __/ |           ##
+##                          |_|          |___/            ##
+##                                                        ##
+############################################################
+############################################################
+
+## Shops ##
+class CreateShops < ActiveRecord::Migration::Current
+
+  ## Up ##
+  def up
+    create_table :shops, if_exists: false  do |t|
       t.string :shopify_domain, null: false
       t.string :shopify_token, null: false
       t.timestamps
@@ -9,7 +26,12 @@ class CreateShops < ActiveRecord::Migration[6.0]
     add_index :shops, :shopify_domain, unique: true
   end
 
-  def self.down
-    drop_table :shops
+  ## Down ##
+  def down
+    drop_table :shops, if_exists: true
   end
+
 end
+
+############################################################
+############################################################
