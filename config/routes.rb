@@ -1,3 +1,27 @@
+########################################
+########################################
+##    _____            _              ##
+##   | ___ \          | |             ##
+##   | |_/ /___  _   _| |_ ___  ___   ##
+##   |    // _ \| | | | __/ _ \/ __|  ##
+##   | |\ \ (_) | |_| | ||  __/\__ \  ##
+##   \_| \_\___/ \__,_|\__\___||___/  ##
+##                                    ##
+########################################
+########################################
+
+## Good resource
+## https://gist.github.com/maxivak/5d428ade54828836e6b6#merge-engine-and-app-routes
+
+########################################
+########################################
+
+## Routes ##
+## More in FL Gem ##
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  root to: 'products#index' # => ShopifyApp (this is used to show the "authenticated" page)
+  mount ShopifyApp::Engine, at: '/' # => ShopifyApp Engine (required for oAuth etc)
 end
+
+########################################
+########################################
