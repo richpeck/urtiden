@@ -42,29 +42,24 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## curl -k --data \
     ## "data=username%3DUSERNAME%26password%3DPASSWORD%26pid%3DPORTAL ID%26lid%3DLANGUAGE ID" \ ##
     ## Environment/export/csv.php ##
-    data = {
+    params = {
       username: Rails.application.credentials.dig(Rails.env.to_sym, :api, :login),
       password: Rails.application.credentials.dig(Rails.env.to_sym, :api, :password),
       pid:      Rails.application.credentials.dig(Rails.env.to_sym, :api, :pid),
       lid:      Rails.application.credentials.dig(Rails.env.to_sym, :api, :lid)
-    }
-
-    Rails.logger.info "data=" + URI.encode_www_form(data)
-    Rails.logger.info URI.encode(URI.encode_www_form(data))
+    }.to_query
 
     ## Allows us to connect to the system ##
     ## We just need to connect to the server and download the CSV for processing ##
     @connection = Faraday.new url: Rails.application.credentials.dig(Rails.env.to_sym, :api, :endpoint)
     response = @connection.post 'csv.php' do |req| # => https://gist.github.com/narath/9e74cb7dd17050c76936fded2861f2d1
        req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-       req.body = "data=" + URI.encode_www_form(data)
+       req.body = URI.encode_www_form({"data": params})
     end
-
-    Rails.logger.info response.body
 
     ## Show response (might be huge) ##
     ## This is where we should put all the products into the local db ##
-    Rails.logger.info response.inspect
+    Rails.logger.info response.body
 
     ## Nothing to show ##
     ## Just redirect back to index ##
