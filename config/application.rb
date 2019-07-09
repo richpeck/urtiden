@@ -32,12 +32,10 @@ module Urtiden
     # => ExceptionHandler
     config.exception_handler = { dev: true }
 
-    puts Rails.configuration.database_configuration[Rails.env]
-
     # => DataTables
     # => https://github.com/jbox-web/ajax-datatables-rails#configuration
     AjaxDatatablesRails.configure do |config|
-      config.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym
+      config.db_adapter = Rails.env.staging? ? :pg : Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym
     end
 
   end
