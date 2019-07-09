@@ -24,17 +24,21 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   ## Delegators ##
-  def_delegators :@view, :link_to, :image_tag
+  def_delegators :@view, :link_to, :image_tag, :number_to_currency, :link_to, :product_path
 
   ## Column Search Lookup ##
   def view_columns
     # Declare strings in this format: ModelName.column_name
     # or in aliased_join_table.column_name format
     @view_columns ||= {
-       id:    { source: "Product.id", cond: :eq },
-       icon:  { source: "Product.icon", cond: :eq },
-       name:  { source: "Product.name", cond: :like },
-       price: { source: "Produt.price", cond: :eq }
+       id:          { source: "Product.id", cond: :eq },
+       icon:        { source: "Product.icon", cond: :eq },
+       name:        { source: "Product.name", cond: :like },
+       price:       { source: "Product.price", cond: :eq },
+       stock:       { source: "Product.stock", cond: :eq },
+       synced_at:   { source: "Product.synced_at", cond: :eq },
+       created_at:  { source: "Product.created_at", cond: :eq },
+       updated_at:  { source: "Product.updated_at", cond: :eq }
     }
   end
 
@@ -45,8 +49,12 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
       {
         id:         record.id,
         icon:       image_tag(record.icon),
-        name:       record.name,
-        price:      record.price,
+        name:       link_to(record.name, product_path(record)),
+        price:      number_to_currency(record.price, unit: "€"),
+        stock:      record.stock,
+        synced_at:  record.synced_at.try(:strftime, '%b %d %Y (%H:%M:%S)'),
+        created_at: record.created_at.strftime('%b %d %Y (%H:%M:%S)'),
+        updated_at: record.updated_at.strftime('%b %d %Y (%H:%M:%S)'),
         DT_RowId:   record.id # This will automagically set the id attribute on the corresponding <tr> in the datatable
       }
     end

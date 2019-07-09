@@ -37,7 +37,13 @@ $(document).ready ->
     pagingType: 'full_numbers'
     columns: [
       {data: 'id'}
+      {data: 'icon'}
       {data: 'name'}
+      {data: 'price'}
+      {data: 'stock'}
+      {data: 'synced_at'}
+      {data: 'created_at'}
+      {data: 'updated_at'}
     ]
     "language":
       "emptyTable": "No data available in table. <b>Please <a href='/import'>Import</a><b/>."
