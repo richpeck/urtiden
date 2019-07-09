@@ -13,9 +13,4 @@
     = csp_meta_tag
 
   %body
-    %header
-      %h2= controller_name
-      %h2= link_to "Import", import_products_path, title: "Import Products From Endpoint"
-
-    %main
-      = yield
+    = yield

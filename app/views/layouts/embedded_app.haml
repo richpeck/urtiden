@@ -17,6 +17,9 @@
   %body
     .app-wrapper
       .app-content
+        %header 
+          %h2= controller_name
+          %h2= link_to "Import", import_products_path, title: "Import Products From Endpoint"
         %main{role: "main", app: "shopify"}
           = yield
     = render 'layouts/flash_messages'
