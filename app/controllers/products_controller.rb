@@ -26,6 +26,15 @@ require 'csv' # => Allows us to read the CSV
 ## Allows us to manage imported products with Shopify ##
 class ProductsController < ShopifyApp::AuthenticatedController
 
+  ############################################################
+  ############################################################
+
+  ## Before Action ##
+  before_action Proc.new { @shop = Shop.find_by shopify_domain: shop_session.domain }, only: :import
+
+  ############################################################
+  ############################################################
+
   ## Index ##
   ## This is the main page they see when they want to match products with their store ##
   def index
@@ -70,6 +79,8 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## This is where we should put all the products into the local db ##
     ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
     csv = CSV.parse(response.body, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
+
+    Rails.logger.info @shop.inspect
 
     ## Products ##
     ## Create values locally ##
