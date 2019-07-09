@@ -90,7 +90,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
     csv = CSV.parse(response.body, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
-    puts csv.inspect
+    Rails.logger.info "TEST TEST TEST TEST"
 
     ## Products ##
     ## Create values locally ##
