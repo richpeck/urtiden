@@ -87,7 +87,10 @@ gem 'faraday', '~> 0.15.4'                            # => Faraday (used for API
 gem 'activerecord-import', '~> 1.0', '>= 1.0.1'       # => Whilst upsert_all in beta // https://github.com/zdennis/activerecord-import
 gem 'ajax-datatables-rails', '~> 1.0'                 # => Allows us to show product data tables on the screen
 gem 'jquery-datatables', '~> 1.10', '>= 1.10.19.1'    # => Required for Ajax Datatables to get working
-gem 'kaminari', '~> 1.1', '>= 1.1.1'                  # => Ensures we are able to paginate requests 
+gem 'kaminari', '~> 1.1', '>= 1.1.1'                  # => Ensures we are able to paginate requests
+
+## Assets ##
+gem 'sprockets', '~> 4.0.0.beta9'                     # => SASS Globbing etc
 
 ########################################
 ########################################
