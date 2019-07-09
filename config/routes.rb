@@ -33,9 +33,18 @@ Rails.application.routes.draw do
   # => Functionality
   # => This allows us to manage the various products within the system
   resources :products, only: [:index, :update, :show, :destroy], path: "" do # => Allows us to manage products within the Shopify store
-    get    :import, on: :collection      # => Imports products from the supplier (WWT.it) and shows them in our dashboard area
-    delete :destroy_all, on: :collection # => Removes all products
-  end
+
+    ## Member ##
+    get :sync, on: :member # => Syncs one specific product
+
+    ## Collection ##
+    collection do
+      get    :import      # => Imports products from the supplier (WWT.it) and shows them in our dashboard area
+      delete :destroy_all # => Removes all products
+      get    :sync_all    # => Sets up a sync of all the products
+    end
+
+  end # => Functionality
 
 end
 

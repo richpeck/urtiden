@@ -5,5 +5,5 @@ document.addEventListener 'DOMContentLoaded', ->
     apiKey: data.apiKey
     shopOrigin: data.shopOrigin
     debug: data.debug == 'true'
-    forceRedirect: true
+    forceRedirect: false
   return

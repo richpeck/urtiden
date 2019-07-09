@@ -18,8 +18,10 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
     # Declare strings in this format: ModelName.column_name
     # or in aliased_join_table.column_name format
     @view_columns ||= {
-       id:   { source: "Product.id", cond: :eq },
-       name: { source: "Product.name", cond: :like }
+       id:    { source: "Product.id", cond: :eq },
+       icon:  { source: "Product.icon", cond: :eq },
+       name:  { source: "Product.name", cond: :like },
+       price: { source: "Produt.price", cond: :eq }
     }
   end
 
@@ -27,7 +29,9 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:         record.id,
-        first_name: record.name,
+        icon:       record.icon,
+        name:       record.name,
+        price:      record.price,
         DT_RowId:   record.id # This will automagically set the id attribute on the corresponding <tr> in the datatable
       }
     end

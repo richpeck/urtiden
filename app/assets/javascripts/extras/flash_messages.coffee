@@ -8,5 +8,5 @@ if !document.documentElement.hasAttribute('data-turbolinks-preview')
       ShopifyApp.flashNotice flashData.notice
     if flashData.error
       ShopifyApp.flashError flashData.error
-    document.removeEventListener eventName, flash
+    document.removeEventListener eventName, flashData
     return
