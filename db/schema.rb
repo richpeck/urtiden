@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2019_07_09_063416) do
     t.integer "stock"
     t.integer "min_qty"
     t.integer "speed_shipping"
-    t.text "attribs", limit: 4294967296
+    t.text "attribs", limit: 1500
     t.text "icon"
     t.text "image"
     t.datetime "img_last_update"

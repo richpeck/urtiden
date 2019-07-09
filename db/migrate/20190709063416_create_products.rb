@@ -51,7 +51,7 @@ class CreateProducts < ActiveRecord::Migration::Current
         t.integer :stock
         t.integer :min_qty
         t.integer :speed_shipping
-        t.text    :attribs, limit: 4294967296 # => attributes conflicts with ActiveRecord
+        t.text    :attribs, limit: 1500 # => attributes conflicts with ActiveRecord
 
         ## Images ##
         ## Information about product imagery ##
