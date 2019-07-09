@@ -45,8 +45,18 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## - ##
     ## After this, we are able to populate the dashboard with the user's imported products etc ##
     ## Allowing us to sync them together as required ##
-    @products = ShopifyAPI::Product.find(:all, params: { limit: 10 })
+    @products = Product.any? ? Product.all : ShopifyAPI::Product.find(:all, params: { limit: 10 })
 
+  end
+
+  ###############################################
+  ###############################################
+
+  ## Destroy All ##
+  ## Removes all products per shop ##
+  def destroy_all
+    @shop.products.delete_all
+    redirect_to :index
   end
 
   ###############################################
@@ -80,11 +90,9 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
     csv = CSV.parse(response.body, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
-    Rails.logger.info @shop.inspect
-
     ## Products ##
     ## Create values locally ##
-    Product.import csv,
+    @shop.products.import csv,
       validate: false,
       on_duplicate_key_update: {
         conflict_target: [:ean],

@@ -37,6 +37,18 @@ class Product < ApplicationRecord
   #################################
   #################################
 
+    ## Alias Attribute ##
+    alias_attribute :title, :name
+
+  #################################
+  #################################
+
+    ## Kaminari ##
+    paginates_per 50
+
+  #################################
+  #################################
+
     ## Monetization ##
     ## Uses money_ruby gem - https://github.com/RubyMoney/money-rails#activerecord ##
     #monetize :price_cents, as: :price
