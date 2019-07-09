@@ -39,6 +39,8 @@ $(document).ready ->
       {data: 'id'}
       {data: 'name'}
     ]
+    "language":
+      "emptyTable": "No data available in table. Please <a href='/import'>Import</a>."
 
 #########################################################
 #########################################################
