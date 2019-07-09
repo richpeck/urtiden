@@ -52,7 +52,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## This is used by the ajax datatables gem ##
     respond_to do |format|
       format.html
-      format.json { render json: ProductDatatable.new(params, shop: @shop) } # => https://github.com/jbox-web/ajax-datatables-rails#4-setup-the-controller-action
+      format.json { render json: ProductDatatable.new(params, shop: @shop, view_context: view_context) } # => https://github.com/jbox-web/ajax-datatables-rails#4-setup-the-controller-action
     end
 
   end

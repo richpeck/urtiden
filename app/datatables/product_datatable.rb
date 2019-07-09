@@ -18,9 +18,14 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
   ## Initialize ##
   def initialize(params, opts = {})
    @shop = opts[:shop]
+   @view = opts[:view_context]
    super
   end
 
+  ## Delegators ##
+  def_delegators :@view, :link_to, :image_tag
+
+  ## Column Search Lookup ##
   def view_columns
     # Declare strings in this format: ModelName.column_name
     # or in aliased_join_table.column_name format
@@ -38,7 +43,7 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:         record.id,
-        icon:       record.icon,
+        icon:       image_tag(record.icon),
         name:       record.name,
         price:      record.price,
         DT_RowId:   record.id # This will automagically set the id attribute on the corresponding <tr> in the datatable
