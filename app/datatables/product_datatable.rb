@@ -12,7 +12,14 @@
 
 ## Datatable Class ##
 ## Allows us to determine exactly what appears in the datatable here ##
+## https://github.com/jbox-web/ajax-datatables-rails#using-view-helpers ##
 class ProductDatatable < AjaxDatatablesRails::ActiveRecord
+
+  ## Initialize ##
+  def initialize(params, opts = {})
+   @shop = opts[:shop]
+   super
+  end
 
   def view_columns
     # Declare strings in this format: ModelName.column_name
@@ -25,6 +32,8 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
     }
   end
 
+  ## Data ##
+  ## This is what gets passed back to the script ##
   def data
     records.map do |record|
       {
@@ -37,6 +46,7 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
     end
   end
 
+  ## Records ##
   def get_raw_records
     Product.all
   end
