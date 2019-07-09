@@ -18,8 +18,8 @@
     .app-wrapper
       .app-content
         %header
-          %h2= controller_name
-          %h2#import= link_to "Import", import_products_path, title: "Import Products From Endpoint"
+          %h2= pluralize(@products.count, controller_name)
+          %h2#import= link_to "💾", import_products_path, title: "Import Products From Endpoint"
         %main{role: "main", app: "shopify"}
           = yield
     = render 'layouts/flash_messages'
