@@ -26,15 +26,15 @@ Rails.application.routes.draw do
   # => Also needs a root page (for when authenticated)
   root to: 'products#index' # => ShopifyApp (this is used to show the "authenticated" page)
 
+  # => Shopify App Engine
+  # => This is used for oAuth etc
+  mount ShopifyApp::Engine, at: '/' # => ShopifyApp Engine (required for oAuth etc)
+
   # => Functionality
   # => This allows us to manage the various products within the system
   resources :products, only: [:index, :update, :show], path: "" do # => Allows us to manage products within the Shopify store
     get :import, on: :collection # => Imports products from the supplier (WWT.it) and shows them in our dashboard area
   end
-
-  # => Shopify App Engine
-  # => This is used for oAuth etc
-  mount ShopifyApp::Engine, at: '/' # => ShopifyApp Engine (required for oAuth etc)
 
 end
 

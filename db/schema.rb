@@ -10,7 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_08_094833) do
+ActiveRecord::Schema.define(version: 2019_07_09_063416) do
+
+  create_table "products", force: :cascade do |t|
+    t.integer "id_product"
+    t.integer "id_brand"
+    t.integer "id_supplier"
+    t.integer "ean", limit: 8
+    t.text "name"
+    t.string "reference"
+    t.string "category"
+    t.string "group"
+    t.string "brand_name"
+    t.decimal "price", precision: 10, scale: 2
+    t.integer "retail_price"
+    t.decimal "discount", precision: 10, scale: 2
+    t.integer "weight"
+    t.integer "stock"
+    t.integer "min_qty"
+    t.integer "speed_shipping"
+    t.text "attribs", limit: 4294967296
+    t.text "icon"
+    t.text "image"
+    t.datetime "img_last_update"
+    t.datetime "synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ean"], name: "index_products_on_ean", unique: true
+  end
 
   create_table "shops", force: :cascade do |t|
     t.string "shopify_domain", null: false

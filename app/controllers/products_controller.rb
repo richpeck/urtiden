@@ -15,7 +15,8 @@
 ############################################################
 
 ## Libs ##
-require 'csv'
+require 'csv'        # => Allows us to read the CSV
+require 'ostruct' # => Allows us to build objects out of the CSV
 
 ############################################################
 ############################################################
@@ -39,6 +40,9 @@ class ProductsController < ShopifyApp::AuthenticatedController
     @products = ShopifyAPI::Product.find(:all, params: { limit: 10 })
 
   end
+
+  ###############################################
+  ###############################################
 
   ## Import ##
   ## This imports all products from the API ##
@@ -65,16 +69,17 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Show response (might be huge) ##
     ## This is where we should put all the products into the local db ##
-    csv = CSV.parse(response.body, headers: :first_row, col_sep: ";").map(&:to_h)
-
-    Rails.logger.info csv.first.keys
-    Rails.logger.info csv.first.dig("id_product")
+    ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
+    csv = CSV.parse(response.body, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
     ## Products ##
     ## Create values locally ##
-    csv.each do |item|
-      Rails.logger.info item.dig("name")
-    end
+    Product.import csv,
+      validate: false,
+      on_duplicate_key_update: {
+        conflict_target: [:ean],
+        columns: [:stock, :price]
+    }
 
     ## Nothing to show ##
     ## Just redirect back to index ##
