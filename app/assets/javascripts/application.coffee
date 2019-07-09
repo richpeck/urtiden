@@ -41,6 +41,9 @@ $(document).ready ->
     ]
     "language":
       "emptyTable": "No data available in table. Please <a href='/import'>Import</a>."
+    "dom": '<"toolbar">frtip'
+    fnInitComplete: ->
+      $('div.toolbar').html('Custom tool bar!');
 
 #########################################################
 #########################################################
