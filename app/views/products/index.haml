@@ -5,6 +5,7 @@
       });
 
 %h2 Products
+%h2= link_to "Import", import_products_path, title: "Import Products From Endpoint"
 %ul
   - @products.each do |product|
     %li= link_to product.title, "https://#{@shop_session.domain}/admin/products/#{product.id}", target: "_top"
