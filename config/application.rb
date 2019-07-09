@@ -34,8 +34,8 @@ module Urtiden
 
     # => DataTables
     # => https://github.com/jbox-web/ajax-datatables-rails#configuration
-    AjaxDatatablesRails.configure do |c|
-      c.db_adapter = Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym
+    AjaxDatatablesRails.configure do |config|
+      config.db_adapter = :pg
     end
 
   end
