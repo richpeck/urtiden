@@ -101,12 +101,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Products ##
     ## Create values locally ##
-    @shop.products.import csv,
-      validate: false,
-      on_duplicate_key_update: {
-        conflict_target: [:ean],
-        columns: [:stock, :price]
-      }
+    @shop.products.import csv, validate: false
 
     ## Nothing to show ##
     ## Just redirect back to index ##
