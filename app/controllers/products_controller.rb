@@ -56,6 +56,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Removes all products per shop ##
   def destroy_all
     @shop.products.delete_all
+    flash[:notice] = "Products Destroyed"
     redirect_to :index
   end
 
@@ -90,20 +91,18 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
     csv = CSV.parse(response.body, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
-    Rails.logger.info csv.inspect
-
     ## Products ##
     ## Create values locally ##
-    #@shop.products.import csv,
-    #  validate: false,
-    #  on_duplicate_key_update: {
-    #    conflict_target: [:ean],
-    #    columns: [:stock, :price]
-    #  }
+    @shop.products.import csv,
+      validate: false,
+      on_duplicate_key_update: {
+        conflict_target: [:ean],
+        columns: [:stock, :price]
+      }
 
     ## Nothing to show ##
     ## Just redirect back to index ##
-    flash[:notice] = "Products Imported From API" # => Only valid way to get the flash to show
+    flash[:notice] = "Products Imported" # => Only valid way to get the flash to show
     redirect_to action: :index
 
   end
