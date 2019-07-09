@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 2019_07_09_063416) do
     t.datetime "synced_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ean"], name: "index_products_on_ean", unique: true
+    t.index ["id_product"], name: "index_products_on_id_product", unique: true
     t.index ["shop_id"], name: "index_products_on_shop_id"
   end
 
