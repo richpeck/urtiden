@@ -72,7 +72,7 @@ class CreateProducts < ActiveRecord::Migration::Current
 
         ## Index ##
         ## Gives us unique reference for products ##
-        t.index :ean, unique: true
+        t.index :id_product, unique: true
 
       end
 
