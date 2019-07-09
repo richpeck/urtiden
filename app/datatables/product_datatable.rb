@@ -26,16 +26,15 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
   def data
     records.map do |record|
       {
-        # example:
-        # id: record.id,
-        # name: record.name
+        id:         record.id,
+        first_name: record.name,
+        DT_RowId:   record.id # This will automagically set the id attribute on the corresponding <tr> in the datatable
       }
     end
   end
 
   def get_raw_records
-    # insert query here
-    # User.all
+    Product.all
   end
 
 end
