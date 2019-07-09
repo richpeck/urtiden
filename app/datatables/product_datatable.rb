@@ -14,6 +14,7 @@
 ## Allows us to determine exactly what appears in the datatable here ##
 ## https://github.com/jbox-web/ajax-datatables-rails#using-view-helpers ##
 class ProductDatatable < AjaxDatatablesRails::ActiveRecord
+  extend Forwardable
 
   ## Initialize ##
   def initialize(params, opts = {})
@@ -52,8 +53,9 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
   end
 
   ## Records ##
+  ## Where the records come from ##
   def get_raw_records
-    Product.all
+    @shop.products
   end
 
 end
