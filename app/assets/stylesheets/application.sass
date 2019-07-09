@@ -35,15 +35,17 @@ body
   .app-wrapper
     .app-content
       header
-        padding: 5px
-        color: rgba(255,255,255,1)
-        background: rgba(#ddd, 1)
         text:
           transform: capitalize
+        &:after
+          content: ""
+          clear: both
         h2
           display: inline-block
           font:
             size: 1.15em
+          &#import
+            float: right
         a
           color: rgba(255,255,255,1)
       main
