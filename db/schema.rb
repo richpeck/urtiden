@@ -13,11 +13,13 @@
 ActiveRecord::Schema.define(version: 2019_07_09_063416) do
 
   create_table "products", force: :cascade do |t|
+    t.integer "shop_id"
     t.integer "id_product"
     t.integer "id_brand"
     t.integer "id_supplier"
     t.integer "ean", limit: 8
     t.text "name"
+    t.text "slug"
     t.string "reference"
     t.string "category"
     t.string "group"
@@ -37,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_07_09_063416) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["ean"], name: "index_products_on_ean", unique: true
+    t.index ["shop_id"], name: "index_products_on_shop_id"
   end
 
   create_table "shops", force: :cascade do |t|

@@ -16,7 +16,7 @@
 ############################################################
 
 ## Products ##
-## id | id_product | id_brand | id_supplier | ean | name | reference | category | group | band_name | price | weight | icon | image | img_last_update | retail_price | discount | reference | stock | min_qty | speed_shipping | attributes | synced_at | created_at | updated_at ##
+## id | id_product | id_brand | id_supplier | ean | name | slug | reference | category | group | band_name | price | weight | icon | image | img_last_update | retail_price | discount | reference | stock | min_qty | speed_shipping | attributes | synced_at | created_at | updated_at ##
 class CreateProducts < ActiveRecord::Migration::Current
 
   #########################################
@@ -30,6 +30,10 @@ class CreateProducts < ActiveRecord::Migration::Current
       ## Create Table ##
       create_table :products do |t| # => users stored through "associations"
 
+        ## Shop ##
+        ## Binds each product to a particular shop ##
+        t.references :shop
+
         ## Associations ##
         ## Allows us to determine how product is set up ##
         t.integer :id_product
@@ -40,6 +44,7 @@ class CreateProducts < ActiveRecord::Migration::Current
         ## Allows us to manage the data etc ##
         t.integer :ean, limit: 8
         t.text    :name
+        t.text    :slug
         t.string  :reference
         t.string  :category
         t.string  :group

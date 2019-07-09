@@ -15,8 +15,7 @@
 ############################################################
 
 ## Libs ##
-require 'csv'        # => Allows us to read the CSV
-require 'ostruct' # => Allows us to build objects out of the CSV
+require 'csv' # => Allows us to read the CSV
 
 ############################################################
 ############################################################
@@ -79,7 +78,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
       on_duplicate_key_update: {
         conflict_target: [:ean],
         columns: [:stock, :price]
-    }
+      }
 
     ## Nothing to show ##
     ## Just redirect back to index ##

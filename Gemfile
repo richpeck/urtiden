@@ -83,7 +83,10 @@ gem 'friendly_id', github: 'norman/friendly_id'       # => Fixes for Rails 6.0.0
 gem 'faraday', '~> 0.15.4'                            # => Faraday (used for API connection)
 
 ## Data Management ##
+## Gives us the ability to manage the products within the store ##
 gem 'activerecord-import', '~> 1.0', '>= 1.0.1'       # => Whilst upsert_all in beta // https://github.com/zdennis/activerecord-import
+gem 'ajax-datatables-rails', '~> 1.0'                 # => Allows us to show product data tables on the screen
+gem 'jquery-datatables', '~> 1.10', '>= 1.10.19.1'    # => Required for Ajax Datatables to get working
 
 ########################################
 ########################################
