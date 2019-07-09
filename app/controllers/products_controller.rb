@@ -90,7 +90,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
     csv = CSV.parse(response.body, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
-    Rails.logger.info csv.first.inspect()
+    Rails.logger.info csv.count
 
     ## Products ##
     ## Create values locally ##
@@ -103,7 +103,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Nothing to show ##
     ## Just redirect back to index ##
-    flash[:notice] = "Products Imported" # => Only valid way to get the flash to show
+    flash[:notice] = "Products Imported From API" # => Only valid way to get the flash to show
     redirect_to action: :index
 
   end
