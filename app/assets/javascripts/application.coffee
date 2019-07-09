@@ -28,6 +28,17 @@
 
 ## DataTables ##
 ## Allows us to showcase the products for a store on the index page ##
+$(document).ready ->
+  $('#products').dataTable
+    processing: true
+    serverSide: true
+    ajax:
+      url: $('#products').data('source')
+    pagingType: 'full_numbers'
+    columns: [
+      {data: 'id'}
+      {data: 'name'}
+    ]
 
 #########################################################
 #########################################################

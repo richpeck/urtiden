@@ -30,7 +30,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ############################################################
 
   ## Before Action ##
-  before_action Proc.new { @shop = Shop.find_by shopify_domain: shop_session.domain }, only: :import
+  before_action Proc.new { @shop = Shop.find_by shopify_domain: shop_session.domain }
 
   ############################################################
   ############################################################
@@ -45,7 +45,14 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## - ##
     ## After this, we are able to populate the dashboard with the user's imported products etc ##
     ## Allowing us to sync them together as required ##
-    @products = Product.any? ? Product.all : ShopifyAPI::Product.find(:all, params: { limit: 10 })
+    @products = @shop.products.any? ? @shop.products.all : ShopifyAPI::Product.find(:all, params: { limit: 10 })
+
+    ## Response ##
+    ## This is used by the ajax datatables gem ##
+    respond_to do |format|
+      format.html
+      format.json { render json: ProductDatatable.new(params) } # => https://github.com/jbox-web/ajax-datatables-rails#4-setup-the-controller-action
+    end
 
   end
 
