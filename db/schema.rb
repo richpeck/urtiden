@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2019_07_09_063416) do
     t.integer "id_product"
     t.integer "id_brand"
     t.integer "id_supplier"
+    t.integer "id_shopify"
     t.integer "ean", limit: 8
     t.text "name"
     t.text "slug"

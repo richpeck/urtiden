@@ -20,6 +20,14 @@ test:
   <<: *default
   database: db/test.sqlite3
 
+staging:
+  adapter:  <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :adpt) %>
+  database: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :name) %>
+  username: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :user) %>
+  password: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :pass) %>
+  host:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) %>
+  port:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :port) %>
+
 production:
   <<: *default
   database: db/production.sqlite3
