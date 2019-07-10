@@ -26,6 +26,13 @@
 // Body
 body
 
+  // Top layer
+  .row
+    &:first-of-type
+      padding: 10px
+    &:last-of-type
+      padding: 10px
+
   // Page Link
   .page-link
     border:
@@ -49,6 +56,7 @@ body
   #products_length,
   #products_filter
     label
+      margin: 0
       white:
         space: nowrap
       input
@@ -106,6 +114,9 @@ body
           transition: background 0.15s ease-in-out
           vertical:
             align: middle !important
+          &.dataTables_empty
+            background:
+              color: rgba(255,255,255,1) !important
           a
             color: rgba(0,0,0,1)
             font:
