@@ -70,12 +70,32 @@ body
         opacity: 0.2
       li
         &.paginate_button
+          margin: 0 !important
+          padding: 0 !important
+          min:
+            width: 0 !important
           border: none !important
+          background: none !important
+          color: inherit !important
           &:hover
             background: none !important
             border: none !important
             box:
               shadow: none !important
+          &.active
+            a
+              &:active,
+              &:focus
+                background: #007bff !important
+          a
+            &:active,
+            &:visited,
+            &:focus
+              box:
+                shadow: none !important
+            &:active,
+            &:focus
+              background: rgba(#007bff, 0.15) !important
 
   // Table
   table
@@ -114,9 +134,6 @@ body
           transition: background 0.15s ease-in-out
           vertical:
             align: middle !important
-          &.dataTables_empty
-            background:
-              color: rgba(255,255,255,1) !important
           a
             color: rgba(0,0,0,1)
             font:
