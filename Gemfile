@@ -90,7 +90,8 @@ gem 'jquery-datatables', '~> 1.10', '>= 1.10.19.1'    # => Required for Ajax Dat
 gem 'kaminari', '~> 1.1', '>= 1.1.1'                  # => Ensures we are able to paginate requests
 
 ## Assets ##
-#gem 'sprockets', '~> 4.0.0.beta9'                     # => SASS Globbing etc
+gem 'rails-assets-bootstrap'          # => Bootstrap (required for DataTables to look good)
+gem 'rails-assets-datatables-select'  # => Plugin for JQuery DataTables
 
 ########################################
 ########################################

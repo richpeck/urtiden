@@ -16,6 +16,7 @@
 #= require 'jquery'
 #= require 'jquery_ujs'
 #= require 'turbolinks'
+#= require 'bootstrap'
 
 #########################################################
 #########################################################
@@ -34,9 +35,17 @@ $(document).ready ->
     serverSide: true
     autoWidth:  true
     responsive: true
+    select:     true # requires "select" plugin
     ajax:
       url: $('#products').data('source')
     pagingType: 'simple_numbers'
+    columnDefs: [
+      {
+        targets: ['id', 'icon'],
+        createdCell:  (td, cellData, rowData, row, col) ->
+           $(td).addClass('center');
+      }
+    ]
     columns: [
       {data: 'id',          name: 'id' }
       {data: 'icon',        name: 'thumbnail' }
@@ -47,8 +56,17 @@ $(document).ready ->
       {data: 'created_at',  name: 'created_at' }
       {data: 'updated_at',  name: 'updated_at' }
     ]
-    "language":
-      "emptyTable": "No data available in table. <b>Please <a href='/import'>Import</a><b/>."
+    #dom: 'Bfrtip'
+    buttons: [
+      'selectAll',
+      'selectNone'
+    ]
+    language:
+      emptyTable: "No data available in table. <b>Please <a href='/import'>Import</a><b/>."
+      buttons: {
+        selectAll: "Select all items"
+        selectNone: "Select none"
+      }
 
 #########################################################
 #########################################################

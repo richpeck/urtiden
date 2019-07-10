@@ -12,50 +12,75 @@
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-// Styles
-//@import "**/*"
+// Bootstrap
+@import bootstrap
 
-// Libs
+// DataTables
 @import datatables/jquery.dataTables
 @import datatables/extensions/Responsive/responsive.dataTables
 @import datatables/extensions/Buttons/buttons.dataTables
-@import datatables/dataTables.bootstrap4
-@import datatables/extensions/Responsive/responsive.bootstrap4
-@import datatables/extensions/Buttons/buttons.bootstrap4
 
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
 // Body
 body
-  margin: 0
 
-  // Styling
-  #products_wrapper
-    > div
-        &:first-of-type
-          display: block
-          padding: 10px
-
-  // Paginate Buttons
-  .paginate_button
-    $color: rgba(#121212,1)
-    a
-      color: $color
-      text:
-        decoration: none
-    &.disabled
-      opacity: 0.25
-      &:hover
-        a
-          color: $color
-          cursor: default
+  // Page Link
+  .page-link
+    border:
+      color: #007bff !important
     &:hover
-      a
-        color: rgba(255,255,255,1)
+      border:
+        color: #007bff
+    &:active,
+    &:focus
+      background:
+        color: black
+
+  // Links
+  a,
+  button
+    &:active,
+    &:focus
+      outline: none
+
+  // Entries
+  #products_length,
+  #products_filter
+    label
+      white:
+        space: nowrap
+      input
+        display: inline-block
+
+  // Pagination (responsive)
+  ul
+    &.pagination
+      padding-inline-start: 0px
+      > .disabled
+        opacity: 0.2
+      li
+        &.paginate_button
+          border: none !important
+          &:hover
+            background: none !important
+            border: none !important
+            box:
+              shadow: none !important
 
   // Table
   table
+
+    // Both
+    thead,
+    tbody
+      tr
+        td,
+        th
+          &.center
+            text:
+              align: center
 
     // Header
     thead
@@ -63,23 +88,32 @@ body
         th
           color: rgba(#fff,1)
           background: rgba(#711FDE,1)
+          border:
+            top:    2px solid #111 !important
+            bottom: 2px solid #111 !important
+          vertical:
+            align: middle !important
 
     // Body
     tbody
       tr
-        &.even
+        & + tr
           td
-            background: lighten(#ccc,15%)
+            border:
+              top: 1px solid rgba(#777,1) !important
+              bottom: 0 !important
         td
-          text:
-            align: center
-          border:
-            bottom: 1px solid rgba(#ccc,1)
+          transition: background 0.15s ease-in-out
+          vertical:
+            align: middle !important
           a
             color: rgba(0,0,0,1)
             font:
               weight: bold
-
+            text:
+              decoration: underline
+            &:hover
+              color: rgba(0,0,0,1)
 
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////

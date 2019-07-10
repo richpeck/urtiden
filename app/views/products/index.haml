@@ -4,15 +4,15 @@
         ShopifyApp.Bar.initialize({ title: "Home" });
       });
 
-%table#products.table.table-striped{"data-source" => "#{products_path(format: :json)}", style: "width:100%;"}
+%table#products.table.table-striped.table-hover{"data-source" => "#{products_path(format: :json)}", style: "width:100%;"}
   %thead
     %tr
-      %th ID
-      %th Thumb
-      %th Name
-      %th Price
-      %th Stock
-      %th Synced At
-      %th Created At
-      %th Updated At
+      %th.id ID
+      %th.icon Thumb
+      %th.name Name
+      %th.price Price
+      %th.stock Stock
+      %th.synced_at Synced At
+      %th.created_at Created At
+      %th.updated_at Updated At
   %tbody

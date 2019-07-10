@@ -14,6 +14,9 @@
 ## https://github.com/mkhairi/jquery-datatables#javascripts
 #= require datatables/jquery.dataTables
 
+## Select ##
+#= require datatables-select
+
 ## Bootstrap4 theme ##
 #= require datatables/dataTables.bootstrap4
 
