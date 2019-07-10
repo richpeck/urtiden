@@ -113,8 +113,8 @@ class ProductsController < ShopifyApp::AuthenticatedController
     products = []
 
     ## Cycle through each of the newly created records ##
-    csv.uniq.each do |product|
-      products << Product.new(product)
+    csv.uniq.take(100).each do |product|
+      products << @shop.products.new(product)
     end
 
     ## Products Callbacks ##
@@ -126,7 +126,8 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Create values locally ##
     ##@shop.products.import products, validate: false, on_duplicate_key_update: { conflict_target: [:id_product], columns: [:stock, :price] }
 
-    products.first.save
+    Rails.logger.info products.first.inspect
+    products.first.save!
 
     ## Nothing to show ##
     ## Just redirect back to index ##
