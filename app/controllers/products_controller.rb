@@ -40,6 +40,8 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## This is the main page they see when they want to match products with their store ##
   def index
 
+    Product.update_all stock: 10000
+
     ## The way it works is two-fold ##
     ## Firstly, the user connects to Shopify - this is done via the app ##
     ## This is done because it's the best way to get it working ##
@@ -120,11 +122,13 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Products Callbacks ##
     ## Runs callbacks on products ##
     ## Calls the slug https://stackoverflow.com/a/40718856/1143732 ##
-    #products.map {|product| product.run_callbacks(:validation) { false } }
+    #products.each do |product|
+    #  product.run_callbacks(:validation) { false }
+    #end
 
     ## Products ##
     ## Create values locally ##
-    @products.import products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: 'id_product', columns: [:stock, :price] } : [:stock, :price] #{ conflict_target: 'id_product', columns: [:stock, :price] }
+    @products.import products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] #{ conflict_target: 'id_product', columns: [:stock, :price] }
 
     ## Nothing to show ##
     ## Just redirect back to index ##
