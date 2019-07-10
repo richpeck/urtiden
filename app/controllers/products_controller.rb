@@ -120,11 +120,13 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Products Callbacks ##
     ## Runs callbacks on products ##
     ## Calls the slug https://stackoverflow.com/a/40718856/1143732 ##
-    products.map {|product| product.run_callbacks(:validation) { false } }
+    #products.map {|product| product.run_callbacks(:validation) { false } }
 
     ## Products ##
     ## Create values locally ##
-    @shop.products.import products, validate: false, on_duplicate_key_update: { conflict_target: [:id_product], columns: [:stock, :price] }
+    ##@shop.products.import products, validate: false, on_duplicate_key_update: { conflict_target: [:id_product], columns: [:stock, :price] }
+
+    @shop.products.create! products.first
 
     ## Nothing to show ##
     ## Just redirect back to index ##
