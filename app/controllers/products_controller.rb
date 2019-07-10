@@ -40,9 +40,9 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## This is the main page they see when they want to match products with their store ##
   def index
 
-    Product.update_all stock: 10000
-    product = Product.first
-    product.update name: "test"
+    #Product.update_all stock: 10000
+    #product = Product.first
+    #product.update name: "test"
 
     ## The way it works is two-fold ##
     ## Firstly, the user connects to Shopify - this is done via the app ##
