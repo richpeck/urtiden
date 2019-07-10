@@ -124,7 +124,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Products ##
     ## Create values locally ##
-    @products.import products, validate: false, on_duplicate_key_update: [:stock, :price]
+    @products.import products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: 'id_product', columns: [:stock, :price] } : [:stock, :price] #{ conflict_target: 'id_product', columns: [:stock, :price] }
 
     ## Nothing to show ##
     ## Just redirect back to index ##
