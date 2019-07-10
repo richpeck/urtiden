@@ -114,7 +114,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Cycle through each of the newly created records ##
     csv.uniq.take(100).each do |product|
-      products << @shop.products.new(product)
+      products << @products.new(product.merge({shop_id: 1}))
     end
 
     ## Products Callbacks ##
@@ -127,12 +127,13 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ##@shop.products.import products, validate: false, on_duplicate_key_update: { conflict_target: [:id_product], columns: [:stock, :price] }
 
     Rails.logger.info products.first.inspect
-    products.first.save!
+    Rails.logger.info @products.inspect
+
+    products.first.save
 
     ## Nothing to show ##
     ## Just redirect back to index ##
-    flash[:notice] = "Products Imported" # => Only valid way to get the flash to show
-    redirect_to action: :index
+    redirect_to action: :index, notice: "Products".pluralize(products.count) + " Imported" # => Only works on string
 
   end
 

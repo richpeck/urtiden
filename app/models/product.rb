@@ -32,7 +32,7 @@ class Product < ApplicationRecord
 
     ## Store ##
     ## Ensures we are keeping the data dependent on users being logged in ##
-    belongs_to :store
+    belongs_to :shop
 
   #################################
   #################################
