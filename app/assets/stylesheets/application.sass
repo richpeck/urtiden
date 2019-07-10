@@ -28,10 +28,19 @@ body
 
   // Top layer
   .row
+    margin:
+      left: 0
+      right: 0
     &:first-of-type
       padding: 10px
     &:last-of-type
       padding: 10px
+
+  // Columns
+  .col-sm-12
+    padding:
+      left: 0
+      right: 0
 
   // Page Link
   .page-link
@@ -61,11 +70,15 @@ body
         space: nowrap
       input
         display: inline-block
+    .form-control
+      width: auto !important
 
   // Pagination (responsive)
   ul
     &.pagination
       padding-inline-start: 0px
+      @media (max-width: 770px)
+        display: block
       > .disabled
         opacity: 0.2
       li
@@ -88,6 +101,7 @@ body
               &:focus
                 background: #007bff !important
           a
+            transition: background 0.15s ease-in-out
             &:active,
             &:visited,
             &:focus
