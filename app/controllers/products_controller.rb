@@ -126,7 +126,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Create values locally ##
     ##@shop.products.import products, validate: false, on_duplicate_key_update: { conflict_target: [:id_product], columns: [:stock, :price] }
 
-    @shop.products.create! products.first
+    products.first.save
 
     ## Nothing to show ##
     ## Just redirect back to index ##

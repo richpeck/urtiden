@@ -52,7 +52,7 @@ class Product < ApplicationRecord
       ## So we need to find the equivalent product on Shopify ##
 
       ## To do this, we need to look for the unique identifier of the product ##
-      ##ShopifyAPI::Product.find
+      ShopifyAPI::Product.find title: self[:name]
 
     end
 
