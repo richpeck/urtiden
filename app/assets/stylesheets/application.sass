@@ -26,9 +26,60 @@
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 
-// HTML
-.toolbar
-  float: left
+// Body
+body
+  margin: 0
+
+  // Styling
+  #products_wrapper
+    > div
+        &:first-of-type
+          display: block
+          padding: 10px
+
+  // Paginate Buttons
+  .paginate_button
+    $color: rgba(#121212,1)
+    a
+      color: $color
+      text:
+        decoration: none
+    &.disabled
+      opacity: 0.25
+      &:hover
+        a
+          color: $color
+          cursor: default
+    &:hover
+      a
+        color: rgba(255,255,255,1)
+
+  // Table
+  table
+
+    // Header
+    thead
+      tr
+        th
+          color: rgba(#fff,1)
+          background: rgba(#711FDE,1)
+
+    // Body
+    tbody
+      tr
+        &.even
+          td
+            background: lighten(#ccc,15%)
+        td
+          text:
+            align: center
+          border:
+            bottom: 1px solid rgba(#ccc,1)
+          a
+            color: rgba(0,0,0,1)
+            font:
+              weight: bold
+
 
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////

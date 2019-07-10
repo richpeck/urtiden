@@ -32,18 +32,20 @@ $(document).ready ->
   $('#products').dataTable
     processing: true
     serverSide: true
+    autoWidth:  true
+    responsive: true
     ajax:
       url: $('#products').data('source')
-    pagingType: 'full_numbers'
+    pagingType: 'simple_numbers'
     columns: [
-      {data: 'id'}
-      {data: 'icon'}
-      {data: 'name'}
-      {data: 'price'}
-      {data: 'stock'}
-      {data: 'synced_at'}
-      {data: 'created_at'}
-      {data: 'updated_at'}
+      {data: 'id',          name: 'id' }
+      {data: 'icon',        name: 'thumbnail' }
+      {data: 'name',        name: 'name' }
+      {data: 'price',       name: 'price' }
+      {data: 'stock',       name: 'stock' }
+      {data: 'synced_at',   name: 'synced_at' }
+      {data: 'created_at',  name: 'created_at' }
+      {data: 'updated_at',  name: 'updated_at' }
     ]
     "language":
       "emptyTable": "No data available in table. <b>Please <a href='/import'>Import</a><b/>."
