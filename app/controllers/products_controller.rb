@@ -114,7 +114,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Cycle through each of the newly created records ##
     csv.uniq.take(100).each do |product|
-      products << @products.new(product.merge({shop_id: 1}))
+      products << @products.new(product)
     end
 
     ## Products Callbacks ##
