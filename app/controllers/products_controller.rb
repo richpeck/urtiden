@@ -124,16 +124,12 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Products ##
     ## Create values locally ##
-    ##@shop.products.import products, validate: false, on_duplicate_key_update: { conflict_target: [:id_product], columns: [:stock, :price] }
-
-    Rails.logger.info products.first.inspect
-    Rails.logger.info @products.inspect
-
-    products.first.save
+    @products.import products, validate: false, on_duplicate_key_update: { conflict_target: [:id_product], columns: [:stock, :price] }
 
     ## Nothing to show ##
     ## Just redirect back to index ##
-    redirect_to action: :index, notice: "Products".pluralize(products.count) + " Imported" # => Only works on string
+    flash[:notice] = "Products".pluralize(products.count) + " Imported" # => Only works on string
+    redirect_to action: :index
 
   end
 
