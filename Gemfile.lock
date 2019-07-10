@@ -118,18 +118,6 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     jwt (2.2.1)
-    kaminari (1.1.1)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.1.1)
-      kaminari-activerecord (= 1.1.1)
-      kaminari-core (= 1.1.1)
-    kaminari-actionview (1.1.1)
-      actionview
-      kaminari-core (= 1.1.1)
-    kaminari-activerecord (1.1.1)
-      activerecord
-      kaminari-core (= 1.1.1)
-    kaminari-core (1.1.1)
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -225,7 +213,7 @@ GEM
       activeresource (>= 4.1.0, < 6.0.0)
       graphql-client
       rack
-    shopify_app (11.0.0)
+    shopify_app (11.0.1)
       browser_sniffer (~> 1.1.2)
       omniauth-shopify-oauth2 (~> 2.1.0)
       rails (> 5.2.1)
@@ -271,7 +259,6 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-datatables (~> 1.10, >= 1.10.19.1)
   jquery-rails
-  kaminari (~> 1.1, >= 1.1.1)
   pg
   puma
   rails (~> 6.0.0.rc1)

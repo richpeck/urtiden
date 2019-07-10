@@ -26,6 +26,31 @@
 // Body
 body
 
+  // Main
+  main
+    margin:
+      bottom: 15px
+
+  // Processing
+  #products_processing
+    position:   fixed
+    padding:    15px
+    height:     auto
+    width:      fit-content
+    color:      rgba(255,255,255,1)
+    background: rgba(0,0,0,0.85)
+    padding:
+      top: 15px
+    margin:
+      left: auto
+      top: auto
+    &:before
+      content: asset_url("loader.gif")
+      display: block
+      height: 15px
+      text:
+        align: center
+
   // Top layer
   .row
     margin:

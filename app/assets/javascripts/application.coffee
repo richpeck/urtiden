@@ -41,7 +41,7 @@ $(document).ready ->
     pagingType: 'simple_numbers'
     columnDefs: [
       {
-        targets: ['id', 'icon'],
+        targets: ['id', 'icon', 'sync'],
         createdCell:  (td, cellData, rowData, row, col) ->
            $(td).addClass('center');
       }
@@ -55,6 +55,7 @@ $(document).ready ->
       {data: 'synced_at',   name: 'synced_at' }
       {data: 'created_at',  name: 'created_at' }
       {data: 'updated_at',  name: 'updated_at' }
+      {data: 'sync' }
     ]
     #dom: 'Bfrtip'
     buttons: [
@@ -63,6 +64,7 @@ $(document).ready ->
     ]
     language:
       emptyTable: "No data available in table. <b>Please <a href='/import'>Import</a><b/>."
+      processing: "Processing"
       buttons: {
         selectAll: "Select all items"
         selectNone: "Select none"

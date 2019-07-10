@@ -71,6 +71,15 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ###############################################
   ###############################################
 
+  ## Sync All ##
+  ## Syncs every product in the db ##
+  def sync_all
+    ## tba ##
+  end
+
+  ###############################################
+  ###############################################
+
   ## Import ##
   ## This imports all products from the API ##
   ## It's a simple method which basically connects to the API endpoint (with credentials) and then populates our DB ##
@@ -99,9 +108,23 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
     csv = CSV.parse(response.body, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
+    ## Convert CSV elements into Product instances ##
+    ## This is mainly for validation purposes ##
+    products = []
+
+    ## Cycle through each of the newly created records ##
+    csv.uniq.each do |product|
+      products << Product.new(product)
+    end
+
+    ## Products Callbacks ##
+    ## Runs callbacks on products ##
+    ## Calls the slug https://stackoverflow.com/a/40718856/1143732 ##
+    products.map {|product| product.run_callbacks(:validation) { false } }
+
     ## Products ##
     ## Create values locally ##
-    @shop.products.import csv.uniq, validate: false, on_duplicate_key_update: { conflict_target: [:id_product], columns: [:stock, :price] }
+    @shop.products.import products, validate: false, on_duplicate_key_update: { conflict_target: [:id_product], columns: [:stock, :price] }
 
     ## Nothing to show ##
     ## Just redirect back to index ##

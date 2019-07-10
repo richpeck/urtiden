@@ -43,15 +43,18 @@ class Product < ApplicationRecord
   #################################
   #################################
 
-    ## Kaminari ##
-    paginates_per 50
+    ## Sync ##
+    ## This syncs the product with Shopify ##
+    ## @product.sync ##
+    def sync
 
-  #################################
-  #################################
+      ## We already have the @product instance ##
+      ## So we need to find the equivalent product on Shopify ##
 
-    ## Monetization ##
-    ## Uses money_ruby gem - https://github.com/RubyMoney/money-rails#activerecord ##
-    #monetize :price_cents, as: :price
+      ## To do this, we need to look for the unique identifier of the product ##
+      ##ShopifyAPI::Product.find
+
+    end
 
   #################################
   #################################

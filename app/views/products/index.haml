@@ -7,7 +7,7 @@
 %table#products.table.table-striped.table-hover{"data-source" => "#{products_path(format: :json)}", style: "width:100%;"}
   %thead
     %tr
-      %th.id ID
+      %th.id Product ID
       %th.icon Thumb
       %th.name Name
       %th.price Price
@@ -15,4 +15,5 @@
       %th.synced_at Synced At
       %th.created_at Created At
       %th.updated_at Updated At
+      %th.sync Actions
   %tbody
