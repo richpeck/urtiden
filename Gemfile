@@ -32,7 +32,7 @@ gem 'puma', groups: [:development, :staging] # => Production will use phusion wi
 # => DB
 # => https://github.com/rrrene/projestimate/blob/master/Gemfile#L11
 gem 'sqlite3', group: :development
-gem 'mysql2',      groups: [:staging,:production]
+gem 'mysql2',  groups: [:staging,:production]
 
 ########################################
 ########################################
