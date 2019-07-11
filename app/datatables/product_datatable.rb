@@ -56,7 +56,7 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
         synced_at:  record.synced_at.try(:strftime, '%b %d %Y (%H:%M:%S %Z)') || "N/A",
         created_at: record.created_at.strftime('%b %d %Y (%H:%M:%S %Z)'),
         updated_at: record.updated_at.strftime('%b %d %Y (%H:%M:%S %Z)'),
-        sync:       content_tag(:div, link_to("📝", product_path(record), title: "Edit")  + link_to("🗑️", product_path(record), method: :delete, title: "Delete", data: { confirm: "Really Delete?" }) ),
+        sync:       content_tag(:div, link_to("✔️", sync_product_path(record), method: :put, title: "Sync", data: { confirm: "Really Sync?" }) + link_to("📝", product_path(record), title: "Edit")  + link_to("🗑️", product_path(record), method: :delete, title: "Delete", data: { confirm: "Really Delete?" }) ),
         DT_RowId:   record.id # This will automagically set the id attribute on the corresponding <tr> in the datatable
       }
     end

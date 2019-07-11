@@ -14,7 +14,7 @@
     - # Rails
     = csrf_meta_tags
 
-  %body
+  %body{data: { products: @products.count }}
     .app-wrapper
       .app-content
         %main{role: "main", app: "shopify"}

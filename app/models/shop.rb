@@ -20,7 +20,7 @@ class Shop < ActiveRecord::Base
   include ShopifyApp::SessionStorage
 
   ## Associations ##
-  has_many :products 
+  has_many :products, dependent: :delete_all
 
   ## Shopify ##
   def api_version

@@ -68,7 +68,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Removes all products per shop ##
   def destroy_all
     @shop.products.delete_all
-    redirect_to :index, notice: "Products Destroyed"
+    redirect_to action: :index, notice: "Products Destroyed"
   end
 
   ###############################################
@@ -79,7 +79,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   def destroy
     @product = @shop.products.find params[:id]
     @product.destroy
-    redirect_to :index, notice: "#{@product.name} Destroyed"
+    redirect_to action: :index, notice: "#{@product.name} Destroyed"
   end
 
   ###############################################

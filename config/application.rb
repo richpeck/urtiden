@@ -38,6 +38,12 @@ module Urtiden
       config.db_adapter = Rails.env.staging? ? :mysql2 : Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym # => Need to fix this -- Heroku eager loads everything
     end
 
+    # => Assets
+    # => Allows us to use helper methods inside JS
+    # => https://stackoverflow.com/questions/7451517/using-a-rails-helper-method-within-a-javascript-asset
+    Sprockets::Context.send :include, Rails.application.routes.url_helpers
+    Sprockets::Context.send :include, ActionView::Helpers
+
   end
 end
 

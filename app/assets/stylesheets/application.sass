@@ -31,6 +31,20 @@ body
     margin:
       bottom: 15px
 
+  // Toolbar
+  .toolbar
+    margin: 10px
+    float:  left
+    .btn
+      border: 1px solid #ccc
+      transition: border 0.15s ease-in-out
+      &:hover
+        border:
+          color: #555
+      & ~ .btn
+        margin:
+          left: 2px
+
   // Processing
   #products_processing
     position:   fixed

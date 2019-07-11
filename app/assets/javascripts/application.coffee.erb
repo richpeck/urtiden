@@ -27,9 +27,17 @@
 #########################################################
 #########################################################
 
-## DataTables ##
-## Allows us to showcase the products for a store on the index page ##
+## Ready ##
+## Triggers when the DOM is ready to be manipulated (IE is 100% effective) ##
 $(document).ready ->
+
+  ## Mutation Observer ##
+  ## We need to track the "toolbar" to make sure that "destroy_all" doesn't appear if the system has no products
+  
+
+
+  ## DataTables ##
+  ## Allows us to showcase the products for a store on the index page ##
   $('#products').dataTable
     processing: true
     serverSide: true
@@ -57,18 +65,17 @@ $(document).ready ->
       {data: 'updated_at',  name: 'updated_at' }
       {data: 'sync' }
     ]
-    #dom: 'Bfrtip'
-    buttons: [
-      'selectAll',
-      'selectNone'
-    ]
+    dom: 'l<"toolbar">frtip' # https://stackoverflow.com/a/32550144/1143732
     language:
       emptyTable: "No data available in table. <b>Please <a href='/import'>Import</a><b/>."
       processing: "Processing"
-      buttons: {
-        selectAll: "Select all items"
-        selectNone: "Select none"
-      }
+    initComplete: ->
+      $("div.toolbar")
+        .html('
+          <% {"✔️ Sync All" => sync_all_products_path, "❌ Delete All" => destroy_all_products_path, "💾 Import CSV" => import_products_path}.each do |k,v| %>
+            <%= link_to k, v, class: "btn shadow-none", method: (k.parameterize(separator: "_") == "delete_all" ? :delete : nil), data: { confirm: "Are You Sure?"}, id: k.parameterize(separator: "_") %>\
+          <% end %>
+        ')
 
 #########################################################
 #########################################################
