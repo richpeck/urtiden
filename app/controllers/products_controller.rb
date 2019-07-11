@@ -74,6 +74,17 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ###############################################
   ###############################################
 
+  ## Destroy ##
+  ## Removes single product ##
+  def destroy
+    @product = @shop.products.find params[:id]
+    @product.destroy
+    redirect_to :index, notice: "#{@product.name} Destroyed"
+  end
+
+  ###############################################
+  ###############################################
+
   ## Sync All ##
   ## Syncs every product in the db ##
   def sync_all
@@ -116,7 +127,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     products = []
 
     ## Cycle through each of the newly created records ##
-    csv.uniq.take(1000).each do |product|
+    csv.uniq.take(5000).each do |product|
       products << @products.new(product)
     end
 
