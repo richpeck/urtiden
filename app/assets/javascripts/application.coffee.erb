@@ -29,8 +29,8 @@
 
 ## Buttons ##
 ## Triggers when top buttons are clicked ##
-$(document).on "click", ".toolbar .btn", (e) ->
-  $(".toolbar .btn").attr("disabled", true)
+$(document).on "click", ".toolbar a.btn", (e) ->
+  $(this).attr("disabled", true)
 
 #########################################################
 #########################################################
@@ -39,13 +39,23 @@ $(document).on "click", ".toolbar .btn", (e) ->
 ## Triggers when the DOM is ready to be manipulated (IE is 100% effective) ##
 $(document).ready ->
 
+  ## Callback ##
+  callback = (mutations) ->
+    mutations.forEach (mutation) ->
+      if (mutation.type == 'attributes' && mutation.attributeName == 'data-products-count') ## products-count has been updated
+        count = $(mutation.target).data("products-count")
+        if count <= 0
+          $("#sync_all").toggleClass("disabled")
+          $("#delete_all").toggleClass("disabled")
+
   ## Buttons ##
   ## Allows us to determine if the buttons should show or not ##
-  mutation_observer document.getElementsByTagName("BODY")[0], (mutation) ->
-    if (mutation.type == 'childList')
-      console.log('A child node has been added or removed.')
-    else if (mutation.type == 'attributes')
-      console.log('The ' + mutation.attributeName + ' attribute was modified.')
+  targetNode = document.getElementsByTagName("body")[0]
+  config     = { attributes: true }
+  observer   = new MutationObserver(callback)
+
+  ## Go ##
+  observer.observe(targetNode, config)
 
 #########################################################
 #########################################################
