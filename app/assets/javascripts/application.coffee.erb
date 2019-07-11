@@ -27,55 +27,31 @@
 #########################################################
 #########################################################
 
+## Buttons ##
+## Triggers when top buttons are clicked ##
+$(document).on "click", ".toolbar btn", (e) ->
+  $(".toolbar btn").each (element)->
+    $(this).prop("disabled", true)
+
+#########################################################
+#########################################################
+
 ## Ready ##
 ## Triggers when the DOM is ready to be manipulated (IE is 100% effective) ##
 $(document).ready ->
 
+  ## Products ##
+  ## This has to be bound to the body tag for now ##
+  products = $("body").attr("data-products-count") || 0
+
+  ## Button Disable ##
+  ## Required if we don't have any products ##
+  if (products <= 0)
+    $("#sync_all").attr("disabled", true)
+    $("#delete_all").attr("disabled", true)
+
   ## Mutation Observer ##
   ## We need to track the "toolbar" to make sure that "destroy_all" doesn't appear if the system has no products
-  
-
-
-  ## DataTables ##
-  ## Allows us to showcase the products for a store on the index page ##
-  $('#products').dataTable
-    processing: true
-    serverSide: true
-    autoWidth:  true
-    responsive: true
-    select:     true # requires "select" plugin
-    ajax:
-      url: $('#products').data('source')
-    pagingType: 'simple_numbers'
-    columnDefs: [
-      {
-        targets: ['id', 'icon', 'sync'],
-        createdCell:  (td, cellData, rowData, row, col) ->
-           $(td).addClass('center');
-      }
-    ]
-    columns: [
-      {data: 'id',          name: 'id' }
-      {data: 'icon',        name: 'thumbnail' }
-      {data: 'name',        name: 'name' }
-      {data: 'price',       name: 'price' }
-      {data: 'stock',       name: 'stock' }
-      {data: 'synced_at',   name: 'synced_at' }
-      {data: 'created_at',  name: 'created_at' }
-      {data: 'updated_at',  name: 'updated_at' }
-      {data: 'sync' }
-    ]
-    dom: 'l<"toolbar">frtip' # https://stackoverflow.com/a/32550144/1143732
-    language:
-      emptyTable: "No data available in table. <b>Please <a href='/import'>Import</a><b/>."
-      processing: "Processing"
-    initComplete: ->
-      $("div.toolbar")
-        .html('
-          <% {"✔️ Sync All" => sync_all_products_path, "❌ Delete All" => destroy_all_products_path, "💾 Import CSV" => import_products_path}.each do |k,v| %>
-            <%= link_to k, v, class: "btn shadow-none", method: (k.parameterize(separator: "_") == "delete_all" ? :delete : nil), data: { confirm: "Are You Sure?"}, id: k.parameterize(separator: "_") %>\
-          <% end %>
-        ')
 
 #########################################################
 #########################################################

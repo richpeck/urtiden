@@ -67,8 +67,8 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Destroy All ##
   ## Removes all products per shop ##
   def destroy_all
-    @shop.products.delete_all
-    redirect_to action: :index, notice: "Products Destroyed"
+    @products.delete_all
+    redirect_to action: :index, notice: "Product".pluralize(@products.count) + " Destroyed"
   end
 
   ###############################################
@@ -77,7 +77,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Destroy ##
   ## Removes single product ##
   def destroy
-    @product = @shop.products.find params[:id]
+    @product = @products.find params[:id]
     @product.destroy
     redirect_to action: :index, notice: "#{@product.name} Destroyed"
   end
@@ -127,7 +127,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     products = []
 
     ## Cycle through each of the newly created records ##
-    csv.uniq.take(9000).each do |product|
+    csv.uniq.take(100).each do |product|
       products << @products.new(product)
     end
 
@@ -143,7 +143,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     @products.import products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
 
     ## Nothing to show ##
-    ## Just redirect back to index ##
+    ## Redirect back to index ##
     flash[:notice] = "Products".pluralize(products.count) + " Imported" # => Only works on string
     redirect_to action: :index
 

@@ -40,6 +40,7 @@ module Urtiden
 
     # => Assets
     # => Allows us to use helper methods inside JS
+    # => Requires sprockets-helpers gem (https://stackoverflow.com/a/37092476/1143732)
     # => https://stackoverflow.com/questions/7451517/using-a-rails-helper-method-within-a-javascript-asset
     Sprockets::Context.send :include, Rails.application.routes.url_helpers
     Sprockets::Context.send :include, ActionView::Helpers

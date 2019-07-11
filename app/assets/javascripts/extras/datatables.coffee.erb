@@ -1,0 +1,79 @@
+#########################################################
+#########################################################
+##    _____      _      _____     _     _              ##
+##   |  _  \    | |    |_   _|   | |   | |             ##
+##   | | | |__ _| |_ __ _| | __ _| |__ | | ___  ___    ##
+##   | | | / _` | __/ _` | |/ _` | '_ \| |/ _ \/ __|   ##
+##   | |/ / (_| | || (_| | | (_| | |_) | |  __/\__ \   ##
+##   |___/ \__,_|\__\__,_\_/\__,_|_.__/|_|\___||___/   ##
+##                                                     ##
+#########################################################
+#########################################################
+
+## Core ##
+## https://github.com/mkhairi/jquery-datatables#javascripts
+#= require datatables/jquery.dataTables
+
+## Select ##
+#= require datatables-select
+
+## Bootstrap4 theme ##
+#= require datatables/dataTables.bootstrap4
+
+## Optional Datatables extensions ##
+#= require datatables/extensions/Responsive/dataTables.responsive
+#= require datatables/extensions/Responsive/responsive.bootstrap4
+#= require datatables/extensions/Buttons/dataTables.buttons
+
+#########################################################
+#########################################################
+
+## Ready ##
+## Triggers when the DOM is ready to be manipulated (IE is 100% effective) ##
+$(document).on 'turbolinks:load', ->
+
+  ## DataTable ##
+  ## Allows us to showcase the products for a store on the index page ##
+  $('#products').dataTable
+    processing: true
+    serverSide: true
+    autoWidth:  true
+    responsive: true
+    select:     true # requires "select" plugin
+    ajax:
+      url: $('#products').data('source')
+    pagingType: 'simple_numbers'
+    drawCallback: (settings, start, end, max, total, pre) ->
+      $("body").attr "data-products-count", this.fnSettings().fnRecordsTotal()
+    columnDefs: [
+      {
+        targets: ['id', 'icon', 'sync'],
+        createdCell:  (td, cellData, rowData, row, col) ->
+           $(td).addClass('center');
+      }
+    ]
+    columns: [
+      {data: 'id',          name: 'id' }
+      {data: 'icon',        name: 'thumbnail' }
+      {data: 'name',        name: 'name' }
+      {data: 'price',       name: 'price' }
+      {data: 'stock',       name: 'stock' }
+      {data: 'synced_at',   name: 'synced_at' }
+      {data: 'created_at',  name: 'created_at' }
+      {data: 'updated_at',  name: 'updated_at' }
+      {data: 'sync' }
+    ]
+    dom: 'l<"toolbar">frtip' # https://stackoverflow.com/a/32550144/1143732
+    language:
+      emptyTable: "No data available in table. <b>Please <a href='/import'>Import</a><b/>."
+      processing: "Processing"
+    initComplete: ->
+      $("div.toolbar")
+        .html('
+          <% {"✔️ Sync All" => sync_all_products_path, "❌ Delete All" => destroy_all_products_path, "💾 Import CSV" => import_products_path}.each do |k,v| %>
+            <%= link_to k, v, class: "btn shadow-none", method: (k.parameterize(separator: "_") == "delete_all" ? :delete : nil), data: { confirm: "Are You Sure?"}, id: k.parameterize(separator: "_") %>\
+          <% end %>
+        ')
+
+#########################################################
+#########################################################

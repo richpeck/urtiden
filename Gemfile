@@ -91,7 +91,7 @@ gem 'jquery-datatables', '~> 1.10', '>= 1.10.19.1'    # => Required for Ajax Dat
 ## Assets ##
 gem 'rails-assets-bootstrap'                          # => Bootstrap (required for DataTables to look good)
 gem 'rails-assets-datatables-select'                  # => Plugin for JQuery DataTables
-gem 'sprockets-helpers', '~> 1.2', '>= 1.2.1'         # => Required to get asset paths available in Javascript
+gem 'sprockets-helpers', '~> 1.2', '>= 1.2.1'         # => Required to get asset paths available in Javascript (https://stackoverflow.com/a/37092476/1143732)
 
 ########################################
 ########################################
