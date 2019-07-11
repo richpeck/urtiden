@@ -25,6 +25,7 @@ require 'csv' # => Allows us to read the CSV
 ## Products Controller ##
 ## Allows us to manage imported products with Shopify ##
 class ProductsController < ShopifyApp::AuthenticatedController
+  include ActionView::Helpers::TextHelper # => Required for pluralize
 
   ############################################################
   ############################################################
@@ -144,8 +145,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Nothing to show ##
     ## Redirect back to index ##
-    flash[:notice] = "Products".pluralize(products.count) + " Imported" # => Only works on string
-    redirect_to action: :index
+    redirect_to action: :index, notice: pluralize(products.count, "Products") + " Imported"
 
   end
 

@@ -29,9 +29,8 @@
 
 ## Buttons ##
 ## Triggers when top buttons are clicked ##
-$(document).on "click", ".toolbar btn", (e) ->
-  $(".toolbar btn").each (element)->
-    $(this).prop("disabled", true)
+$(document).on "click", ".toolbar .btn", (e) ->
+  $(".toolbar .btn").attr("disabled", true)
 
 #########################################################
 #########################################################
@@ -40,18 +39,13 @@ $(document).on "click", ".toolbar btn", (e) ->
 ## Triggers when the DOM is ready to be manipulated (IE is 100% effective) ##
 $(document).ready ->
 
-  ## Products ##
-  ## This has to be bound to the body tag for now ##
-  products = $("body").attr("data-products-count") || 0
-
-  ## Button Disable ##
-  ## Required if we don't have any products ##
-  if (products <= 0)
-    $("#sync_all").attr("disabled", true)
-    $("#delete_all").attr("disabled", true)
-
-  ## Mutation Observer ##
-  ## We need to track the "toolbar" to make sure that "destroy_all" doesn't appear if the system has no products
+  ## Buttons ##
+  ## Allows us to determine if the buttons should show or not ##
+  mutation_observer document.getElementsByTagName("BODY")[0], (mutation) ->
+    if (mutation.type == 'childList')
+      console.log('A child node has been added or removed.')
+    else if (mutation.type == 'attributes')
+      console.log('The ' + mutation.attributeName + ' attribute was modified.')
 
 #########################################################
 #########################################################

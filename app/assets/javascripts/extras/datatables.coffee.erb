@@ -63,7 +63,9 @@ $(document).on 'turbolinks:load', ->
       {data: 'updated_at',  name: 'updated_at' }
       {data: 'sync' }
     ]
-    dom: 'l<"toolbar">frtip' # https://stackoverflow.com/a/32550144/1143732
+    dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'<'toolbar'>><'col-sm-4'f>>" +
+         "<'row'<'col-sm-12'tr>>" +
+         "<'row'<'col-sm-4'i><'col-sm-4 text-center'><'col-sm-4'p>>" # https://stackoverflow.com/a/36619987/1143732
     language:
       emptyTable: "No data available in table. <b>Please <a href='/import'>Import</a><b/>."
       processing: "Processing"
