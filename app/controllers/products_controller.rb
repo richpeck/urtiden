@@ -69,7 +69,9 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Removes all products per shop ##
   def destroy_all
     @products.delete_all
-    redirect_to action: :index, notice: "Product".pluralize(@products.count) + " Destroyed"
+
+    flash[:notice] = pluralize(@products.count, "Products") + " Destroyed"
+    redirect_to action: :index
   end
 
   ###############################################
@@ -80,7 +82,9 @@ class ProductsController < ShopifyApp::AuthenticatedController
   def destroy
     @product = @products.find params[:id]
     @product.destroy
-    redirect_to action: :index, notice: "#{@product.name} Destroyed"
+
+    flash[:notice] = "#{@product.name} Destroyed"
+    redirect_to action: :index
   end
 
   ###############################################

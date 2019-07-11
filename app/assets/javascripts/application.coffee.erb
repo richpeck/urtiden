@@ -30,7 +30,7 @@
 ## Buttons ##
 ## Triggers when top buttons are clicked ##
 $(document).on "click", ".toolbar a.btn", (e) ->
-  $(this).attr("disabled", true)
+  $(".toolbar .btn").addClass("disabled")
 
 #########################################################
 #########################################################
@@ -45,8 +45,11 @@ $(document).ready ->
       if (mutation.type == 'attributes' && mutation.attributeName == 'data-products-count') ## products-count has been updated
         count = $(mutation.target).data("products-count")
         if count <= 0
-          $("#sync_all").toggleClass("disabled")
-          $("#delete_all").toggleClass("disabled")
+          $("#sync_all").addClass("disabled")
+          $("#delete_all").addClass("disabled")
+        else
+          $("#sync_all").removeClass("disabled")
+          $("#delete_all").removeClass("disabled")
 
   ## Buttons ##
   ## Allows us to determine if the buttons should show or not ##
