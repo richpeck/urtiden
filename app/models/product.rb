@@ -16,7 +16,7 @@
 ############################################################
 
 ## Product ##
-## id | id_product | id_brand | id_supplier | ean | name | slug | reference | category | group | band_name | price | weight | icon | image | img_last_update | retail_price | discount | reference | stock | min_qty | speed_shipping | attributes | synced_at | created_at | updated_at ##
+## id | id_product | id_brand | id_supplier | ean | name | slug | reference | category | group | brand_name | price | weight | icon | image | img_last_update | retail_price | discount | reference | stock | min_qty | speed_shipping | attributes | synced_at | created_at | updated_at ##
 class Product < ApplicationRecord
 
   #################################
@@ -50,9 +50,36 @@ class Product < ApplicationRecord
 
       ## We already have the @product instance ##
       ## So we need to find the equivalent product on Shopify ##
+      shopify_product = ShopifyAPI::Product.find(:all, params: { title: name, limit: 1 }).first
+
+      ## Shopify Map ##
+      ## Here we build the data to pass to Shopify ##
+      map = {
+        title: name,
+        vendor: brand_name,
+        body_html: attribs,
+        product_type: category,
+        images:   [{
+          src: image
+        }],
+        variants: [{
+          barcode: ean,
+          weight:  weight,
+          price:   retail_price,
+          requires_shipping: true,
+          sku: reference,
+          compare_at_price: price,
+          product_id: id_product,
+          inventory_quantity: stock,
+          weight_unit: "g"
+        }]
+      }
 
       ## To do this, we need to look for the unique identifier of the product ##
-      ShopifyAPI::Product.find title: self[:name]
+      shopify_product ?  shopify_product.update(map) : shopify_product = ShopifyAPI::Product.create(map)
+
+      ## Update Shopify ID ##
+      update id_shopify: shopify_product.id if id_shopify != shopify_product.id
 
     end
 

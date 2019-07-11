@@ -93,7 +93,21 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Sync All ##
   ## Syncs every product in the db ##
   def sync_all
-    ## tba ##
+    Rails.logger.info ShopifyAPI::Product.find(:all, params: { title: "Beauty Night Audrey" })
+
+    redirect_to action: :index
+  end
+
+  ###############################################
+  ###############################################
+
+  ## Sync ##
+  ## Syncs product ##
+  def sync
+    @product = @products.find params[:id]
+    @product.sync
+    
+    redirect_to action: :index
   end
 
   ###############################################
@@ -132,16 +146,9 @@ class ProductsController < ShopifyApp::AuthenticatedController
     products = []
 
     ## Cycle through each of the newly created records ##
-    csv.uniq.take(100).each do |product|
+    csv.uniq.take(1000).each do |product|
       products << @products.new(product)
     end
-
-    ## Products Callbacks ##
-    ## Runs callbacks on products ##
-    ## Calls the slug https://stackoverflow.com/a/40718856/1143732 ##
-    #products.each do |product|
-    #  product.run_callbacks(:validation) { false }
-    #end
 
     ## Products ##
     ## Create values locally ##
@@ -153,6 +160,19 @@ class ProductsController < ShopifyApp::AuthenticatedController
     redirect_to action: :index
 
   end
+
+  ###############################################
+  ###############################################
+
+  private
+
+  ## Params ##
+  def product_params
+    params.require(:product).permit(:name)
+  end
+
+  ###############################################
+  ###############################################
 
 end
 
