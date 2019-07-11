@@ -53,10 +53,10 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
         name:       link_to(record.name, product_path(record)),
         price:      number_to_currency(record.price, unit: "€"),
         stock:      record.stock,
-        synced_at:  record.synced_at.try(:strftime, '%b %d %Y (%H:%M:%S)') || "N/A",
-        created_at: record.created_at.strftime('%b %d %Y (%H:%M:%S)'),
-        updated_at: record.updated_at.strftime('%b %d %Y (%H:%M:%S)'),
-        sync:       content_tag(:div, link_to("📝", product_path(record), title: "Edit") + link_to("✔️", sync_product_path(record), title: "Sync", data: { confirm: "Are You Sure?"}) + link_to("🗑️", product_path(record), method: :delete, title: "Delete", data: { confirm: "Really Delete?" }) ),
+        synced_at:  record.synced_at.try(:strftime, '%b %d %Y (%H:%M:%S %Z)') || "N/A",
+        created_at: record.created_at.strftime('%b %d %Y (%H:%M:%S %Z)'),
+        updated_at: record.updated_at.strftime('%b %d %Y (%H:%M:%S %Z)'),
+        sync:       content_tag(:div, link_to("📝", product_path(record), title: "Edit")  + link_to("🗑️", product_path(record), method: :delete, title: "Delete", data: { confirm: "Really Delete?" }) ),
         DT_RowId:   record.id # This will automagically set the id attribute on the corresponding <tr> in the datatable
       }
     end
