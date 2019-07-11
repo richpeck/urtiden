@@ -39,7 +39,7 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
        synced_at:   { source: "Product.synced_at", cond: :eq },
        created_at:  { source: "Product.created_at", cond: :eq },
        updated_at:  { source: "Product.updated_at", cond: :eq },
-       sync:        {}
+       sync:        { source: "Product.name", cond: :eq }
     }
   end
 
