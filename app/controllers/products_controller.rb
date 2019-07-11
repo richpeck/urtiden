@@ -68,8 +68,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Removes all products per shop ##
   def destroy_all
     @shop.products.delete_all
-    flash[:notice] = "Products Destroyed"
-    redirect_to :index
+    redirect_to :index, notice: "Products Destroyed"
   end
 
   ###############################################
@@ -117,7 +116,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     products = []
 
     ## Cycle through each of the newly created records ##
-    csv.uniq.take(100).each do |product|
+    csv.uniq.take(1000).each do |product|
       products << @products.new(product)
     end
 
@@ -130,7 +129,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Products ##
     ## Create values locally ##
-    @products.import products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] #{ conflict_target: 'id_product', columns: [:stock, :price] }
+    @products.import products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
 
     ## Nothing to show ##
     ## Just redirect back to index ##
