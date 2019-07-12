@@ -31,7 +31,7 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
     # Declare strings in this format: ModelName.column_name
     # or in aliased_join_table.column_name format
     @view_columns ||= {
-       id:          { source: "Product.id_product", cond: :eq },
+       id:          { source: "Product.id_product", cond: :like },
        icon:        { source: "Product.icon", cond: :eq },
        name:        { source: "Product.name", cond: :like },
        price:       { source: "Product.price", cond: :eq },
