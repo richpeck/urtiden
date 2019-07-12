@@ -78,7 +78,16 @@ class Product < ApplicationRecord
       }
 
       ## To do this, we need to look for the unique identifier of the product ##
-      shopify_product ? shopify_product.save(map) : shopify_product = ShopifyAPI::Product.create(map)
+      if shopify_product
+        shopify_product.tap do |p|
+          p.variants.first.price              = map[:variants].first[:price]
+          p.variants.first.compare_at_price   = map[:variants].first[:compare_at_price]
+          #p.variants.first.old_inventory_quantity = map[:variants].first[:inventory_quantity]
+        end
+        shopify_product.save
+      else
+        shopify_product = ShopifyAPI::Product.create(map)
+      end
 
       ## Update Shopify ID ##
       update synced_at: Time.now, id_shopify: shopify_product.id
