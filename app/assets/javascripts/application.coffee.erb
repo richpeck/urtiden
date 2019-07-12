@@ -40,9 +40,9 @@ $(document).on "click", ".toolbar a.btn", (e) ->
 $(document).on("ajax:success", "a.sync", (event, data, status, xhr) ->
   product = JSON.parse(xhr.responseText)
   console.log product.name
-  alert "Sync Success"
+  alert "✔️ Success"
 ).on "ajax:error", "a.sync", (event, response, status, xhr) ->
-  alert "Sorry, there has been an error."
+  alert "❌ Error"
 
 #########################################################
 #########################################################
