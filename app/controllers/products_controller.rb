@@ -37,6 +37,12 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ############################################################
   ############################################################
 
+  ## Layout ##
+  layout Proc.new { |c| false if c.request.xhr? }
+
+  ############################################################
+  ############################################################
+
   ## Index ##
   ## This is the main page they see when they want to match products with their store ##
   def index
@@ -105,9 +111,12 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Syncs product ##
   def sync
     @product = @products.find params[:id]
-    @product.sync
-    
-    redirect_to action: :index
+    @product.sync # => model method
+
+    respond_to do |format|
+      format.js   { render json: @product.to_json }
+      format.html { redirect_to action: :index }
+    end
   end
 
   ###############################################
@@ -154,10 +163,15 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Create values locally ##
     @products.import products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
 
-    ## Nothing to show ##
+    ## Action ##
     ## Redirect back to index ##
-    flash[:notice] = pluralize(products.count, "Products") + " Imported"
-    redirect_to action: :index
+    respond to do |format|
+      format.html {
+        flash[:notice] = pluralize(products.count, "Products") + " Imported"
+        redirect_to action: :index
+      }
+      format.js { render json: @products.to_json }
+    end
 
   end
 

@@ -29,9 +29,6 @@ module Urtiden
     # => Allows us to use all the defaults etc
     config.load_defaults 6.0
 
-    # => ExceptionHandler
-    config.exception_handler = { dev: true }
-
     # => DataTables
     # => https://github.com/jbox-web/ajax-datatables-rails#configuration
     AjaxDatatablesRails.configure do |config|

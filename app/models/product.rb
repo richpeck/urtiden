@@ -67,6 +67,8 @@ class Product < ApplicationRecord
           weight:  weight,
           price:   retail_price,
           requires_shipping: true,
+          inventory_management: "shopify",
+          inventory_policy: "continue",
           sku: reference,
           compare_at_price: price,
           product_id: id_product,
@@ -76,10 +78,10 @@ class Product < ApplicationRecord
       }
 
       ## To do this, we need to look for the unique identifier of the product ##
-      shopify_product ?  shopify_product.update(map) : shopify_product = ShopifyAPI::Product.create(map)
+      shopify_product ? shopify_product.save(map) : shopify_product = ShopifyAPI::Product.create(map)
 
       ## Update Shopify ID ##
-      update id_shopify: shopify_product.id if id_shopify != shopify_product.id
+      update synced_at: Time.now, id_shopify: shopify_product.id
 
     end
 

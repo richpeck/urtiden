@@ -35,6 +35,18 @@ $(document).on "click", ".toolbar a.btn", (e) ->
 #########################################################
 #########################################################
 
+## Sync ##
+## Since this is Ajax, we can call the ajaxbefore method ##
+$(document).on("ajax:success", "a.sync", (event, data, status, xhr) ->
+  product = JSON.parse(xhr.responseText)
+  console.log product.name
+  alert "Sync Success"
+).on "ajax:error", "a.sync", (event, response, status, xhr) ->
+  alert "Sorry, there has been an error."
+
+#########################################################
+#########################################################
+
 ## Ready ##
 ## Triggers when the DOM is ready to be manipulated (IE is 100% effective) ##
 $(document).ready ->
