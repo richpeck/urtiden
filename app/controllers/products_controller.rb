@@ -165,7 +165,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Action ##
     ## Redirect back to index ##
-    respond to do |format|
+    respond_to do |format|
       format.html {
         flash[:notice] = pluralize(products.count, "Products") + " Imported"
         redirect_to action: :index

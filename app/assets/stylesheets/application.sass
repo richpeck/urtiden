@@ -169,7 +169,9 @@ body
       tr
         td,
         th
-          &.center
+          &.id,
+          &.icon,
+          &.sync
             text:
               align: center
 
@@ -197,12 +199,18 @@ body
           transition: background 0.15s ease-in-out
           vertical:
             align: middle !important
+          &.name
+            font:
+              weight: bold
           &:last-of-type
             font:
               size: 1.5em
             a
               text:
                 decoration: none
+              &.disabled
+                &:hover
+                  pointer: not-allowed
           // Empty
           &.dataTables_empty
             font:

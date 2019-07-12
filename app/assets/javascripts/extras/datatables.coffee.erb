@@ -45,22 +45,15 @@ $(document).on 'turbolinks:load', ->
     pagingType: 'simple_numbers'
     drawCallback: (settings, start, end, max, total, pre) ->
       $("body").attr "data-products-count", this.fnSettings().fnRecordsTotal()
-    columnDefs: [
-      {
-        targets: ['id', 'icon', 'sync'],
-        createdCell:  (td, cellData, rowData, row, col) ->
-           $(td).addClass('center');
-      }
-    ]
     columns: [
-      {data: 'id',          name: 'id' }
-      {data: 'icon',        name: 'thumbnail' }
-      {data: 'name',        name: 'name' }
-      {data: 'price',       name: 'price' }
-      {data: 'stock',       name: 'stock' }
-      {data: 'synced_at',   name: 'synced_at' }
-      {data: 'created_at',  name: 'created_at' }
-      {data: 'updated_at',  name: 'updated_at' }
+      {data: 'id',          name: 'id',         className: "id" }
+      {data: 'icon',        name: 'thumbnail',  className: "thumbnail" }
+      {data: 'name',        name: 'name',       className: "name" }
+      {data: 'price',       name: 'price',      className: "price" }
+      {data: 'stock',       name: 'stock',      className: "stock" }
+      {data: 'synced_at',   name: 'synced_at',  className: "synced_at" }
+      {data: 'created_at',  name: 'created_at', className: "created_at" }
+      {data: 'updated_at',  name: 'updated_at', className: "updated_at" }
       {data: 'sync' }
     ]
     dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'<'toolbar'>><'col-sm-4'f>>" +

@@ -13,15 +13,16 @@
 #########################################################
 
 ## Libs ##
-#= require 'jquery'
-#= require 'jquery_ujs'
-#= require 'turbolinks'
-#= require 'bootstrap'
+#= require jquery
+#= require jquery_ujs
+#= require turbolinks
+#= require bootstrap
 
 #########################################################
 #########################################################
 
 ## Extras ##
+#= require strftime
 #= require_tree ./extras
 
 #########################################################
@@ -37,12 +38,18 @@ $(document).on "click", ".toolbar a.btn", (e) ->
 
 ## Sync ##
 ## Since this is Ajax, we can call the ajaxbefore method ##
-$(document).on("ajax:success", "a.sync", (event, data, status, xhr) ->
+$(document).on("ajax:beforeSend", "a.sync", () ->
+  $(this).addClass("disabled")
+  $("#products_processing").show()
+).on("ajax:success", "a.sync", (event, data, status, xhr) ->
   product = JSON.parse(xhr.responseText)
-  console.log product.name
-  alert "✔️ Success"
-).on "ajax:error", "a.sync", (event, response, status, xhr) ->
+  synced  = strftime('%b %d %Y (%H:%M:%S %Z)', product["synced_at"]) # strftime kept in vendor/assets/javascripts/strftime.js
+  $(this).closest("tr").find("td.synced_at").html(synced)
+).on("ajax:error", "a.sync", (event, response, status, xhr) ->
   alert "❌ Error"
+).on "ajax:complete", "a.sync", () ->
+  $(this).removeClass("disabled")
+  $("#products_processing").hide()
 
 #########################################################
 #########################################################

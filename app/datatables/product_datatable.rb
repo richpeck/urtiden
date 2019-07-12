@@ -50,7 +50,7 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
       {
         id:         record.id_product,
         icon:       link_to(image_tag(record.icon), product_path(record)),
-        name:       content_tag(:strong, record.name),
+        name:       record.name,
         price:      number_to_currency(record.price, unit: "€"),
         stock:      record.stock,
         synced_at:  record.synced_at.try(:strftime, '%b %d %Y (%H:%M:%S %Z)') || "N/A",

@@ -29,6 +29,11 @@ module Urtiden
     # => Allows us to use all the defaults etc
     config.load_defaults 6.0
 
+    # => Locale
+    # => https://stackoverflow.com/questions/6118779/how-to-change-default-timezone-for-active-record-in-rails
+    config.time_zone = "London"
+    config.active_record.default_timezone = :local
+
     # => DataTables
     # => https://github.com/jbox-web/ajax-datatables-rails#configuration
     AjaxDatatablesRails.configure do |config|
