@@ -79,12 +79,16 @@ class Product < ApplicationRecord
 
       ## To do this, we need to look for the unique identifier of the product ##
       if shopify_product
-        shopify_product.tap do |p|
-          p.variants.first.price              = map[:variants].first[:price]
-          p.variants.first.compare_at_price   = map[:variants].first[:compare_at_price]
-          #p.variants.first.old_inventory_quantity = map[:variants].first[:inventory_quantity]
-        end
+
+        ## Update Product model ##
+        shopify_product.variants.first.price              = map[:variants].first[:price]
+        shopify_product.variants.first.compare_at_price   = map[:variants].first[:compare_at_price]
         shopify_product.save
+
+        ## Inventory Quantity has been deprecated, meaning we need to call that API separately ##
+        inventory = ShopifyAPI::InventoryLevel.find(:all, params: { inventory_item_ids: shopify_product.variants.first.inventory_item_id }).first
+        inventory.set map[:variants].first[:inventory_quantity]
+
       else
         shopify_product = ShopifyAPI::Product.create(map)
       end
