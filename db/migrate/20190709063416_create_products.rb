@@ -39,7 +39,7 @@ class CreateProducts < ActiveRecord::Migration::Current
         t.integer :id_product
         t.integer :id_brand
         t.integer :id_supplier
-        t.integer :id_shopify # => Shopify product ID
+        t.string  :id_shopify # => Shopify product ID
 
         ## Content ##
         ## Allows us to manage the data etc ##
