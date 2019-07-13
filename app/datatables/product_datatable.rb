@@ -50,7 +50,7 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
     records.map do |record|
       {
         id:         record.id_product,
-        icon:       link_to(image_tag(record.icon), product_path(record)),
+        icon:       image_tag(record.icon),
         brand:      record.brand_name,
         name:       record.name,
         price:      number_to_currency(record.price, unit: "€"),
