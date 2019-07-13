@@ -154,8 +154,8 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## This is mainly for validation purposes ##
     products = []
 
-    ## Cycle through each of the newly created records ##
-    csv.uniq.take(1000).each do |product|
+    ## Cycle through each of the newly created records ## ## csv.uniq.take(1000) - staging ##
+    csv.uniq.each do |product|
       products << @products.new(product)
     end
 
