@@ -9,6 +9,14 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
+production: &prod
+  adapter:  <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :adpt) %>
+  database: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :name) %>
+  username: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :user) %>
+  password: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :pass) %>
+  host:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) %>
+  port:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :port) %>
+
 development:
   <<: *default
   database: db/development.sqlite3
@@ -21,13 +29,7 @@ test:
   database: db/test.sqlite3
 
 staging:
-  adapter:  <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :adpt) %>
-  database: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :name) %>
-  username: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :user) %>
-  password: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :pass) %>
-  host:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) %>
-  port:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :port) %>
+  <<: *prod
 
 production:
-  <<: *default
-  database: db/production.sqlite3
+  <<: *prod
