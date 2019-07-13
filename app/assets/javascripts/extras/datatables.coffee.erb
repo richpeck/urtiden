@@ -46,15 +46,9 @@ $(document).on 'turbolinks:load', ->
     drawCallback: (settings, start, end, max, total, pre) ->
       $("body").attr "data-products-count", this.fnSettings().fnRecordsTotal()
     columns: [
-      {data: 'id',          name: 'id',         className: "id" }
-      {data: 'icon',        name: 'thumbnail',  className: "thumbnail" }
-      {data: 'name',        name: 'name',       className: "name" }
-      {data: 'price',       name: 'price',      className: "price" }
-      {data: 'stock',       name: 'stock',      className: "stock" }
-      {data: 'synced_at',   name: 'synced_at',  className: "synced_at" }
-      {data: 'created_at',  name: 'created_at', className: "created_at" }
-      {data: 'updated_at',  name: 'updated_at', className: "updated_at" }
-      {data: 'sync' }
+      <% %w(id icon brand name price stock synced_at created_at updated_at sync).each do |item| %>
+        {data: '<%= item %>', name: '<%= item %>', className: '<%= item %>'}
+      <% end %>
     ]
     dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'<'toolbar'>><'col-sm-4'f>>" +
          "<'row'<'col-sm-12'tr>>" +

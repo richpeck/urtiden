@@ -33,6 +33,7 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
     @view_columns ||= {
        id:          { source: "Product.id_product", cond: :like },
        icon:        { source: "Product.icon", cond: :eq },
+       brand:       { source: "Product.brand_name", cond: :like},
        name:        { source: "Product.name", cond: :like },
        price:       { source: "Product.price", cond: :eq },
        stock:       { source: "Product.stock", cond: :eq },
@@ -50,6 +51,7 @@ class ProductDatatable < AjaxDatatablesRails::ActiveRecord
       {
         id:         record.id_product,
         icon:       link_to(image_tag(record.icon), product_path(record)),
+        brand:      record.brand_name,
         name:       record.name,
         price:      number_to_currency(record.price, unit: "€"),
         stock:      record.stock,
