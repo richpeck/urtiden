@@ -45,8 +45,8 @@ class Product < ApplicationRecord
 
     ## Sync ##
     ## This syncs the product with Shopify ##
-    ## @product.sync ##
-    def sync
+    ## @product.sync! ##
+    def sync!
 
       ## We already have the @product instance ##
       ## So we need to find the equivalent product on Shopify ##

@@ -111,7 +111,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Syncs product ##
   def sync
     @product = @products.find params[:id]
-    @product.sync # => model method
+    @product.sync! # => model method
 
     respond_to do |format|
       format.js   { render json: @product.to_json }
