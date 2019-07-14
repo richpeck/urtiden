@@ -41,12 +41,18 @@ $(document).on "click", ".toolbar a.btn", (e) ->
 $(document).on("ajax:beforeSend", "a.sync", () ->
   $(this).addClass("disabled")
   $("#products_processing").show()
+
+## Success ##
 ).on("ajax:success", "a.sync", (event, data, status, xhr) ->
   product = JSON.parse(xhr.responseText)
   synced  = strftime('%b %d %Y (%H:%M:%S %Z)', product["synced_at"]) # strftime kept in vendor/assets/javascripts/strftime.js
   $(this).closest("tr").find("td.synced_at").html(synced)
+
+## Error ##
 ).on("ajax:error", "a.sync", (event, response, status, xhr) ->
   alert "❌ Error"
+
+## Complete ##
 ).on "ajax:complete", "a.sync", () ->
   $(this).removeClass("disabled")
   $("#products_processing").hide()
@@ -60,17 +66,43 @@ $(document).ready ->
 
   ## Callback ##
   callback = (mutations) ->
-    mutations.forEach (mutation) ->
-      if (mutation.type == 'attributes' && mutation.attributeName == 'data-products-count') ## products-count has been updated
-        count = $(mutation.target).data("products-count")
-        if count <= 0
-          $("#sync_all").addClass("disabled")
-          $("#delete_all").addClass("disabled")
-        else
-          $("#sync_all").removeClass("disabled")
-          $("#delete_all").removeClass("disabled")
 
-  ## Buttons ##
+    ## Catches any Mutations that happen ##
+    mutations.forEach (mutation) ->
+
+      ## Attributes ##
+      ## Allows us to differentate depending on the different attributes of the target node ##
+      if (mutation.type == 'attributes')
+
+        ## Sync ##
+        ## This basically allows us to determine whether a sync job is running ##
+        ## Because we have to adapt this via JS, we need to append the queue number to the body tag ##
+        if (mutation.attributeName == 'data-sync-queue')
+
+          ## Count ##
+          count = $(mutation.target).data("sync-queue")
+
+          ## Action ##
+          ## If sync is in progress, show the button that stops it from running ##
+          if count <= 0
+            console.log(count)
+
+        ## Buttons ##
+        ## This blanks out buttons when the "products-count" is listed as 0 ##
+        if (mutation.attributeName == 'data-products-count') ## products-count has been updated
+
+          ## Count ##
+          count = $(mutation.target).data("products-count")
+
+          ## Action ##
+          if count <= 0
+            $("#sync_all").addClass("disabled")
+            $("#delete_all").addClass("disabled")
+          else
+            $("#sync_all").removeClass("disabled")
+            $("#delete_all").removeClass("disabled")
+
+  ## Mutation Observer ##
   ## Allows us to determine if the buttons should show or not ##
   targetNode = document.getElementsByTagName("body")[0]
   config     = { attributes: true }

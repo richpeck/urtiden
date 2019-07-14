@@ -98,8 +98,18 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
   ## Sync All ##
   ## Syncs every product in the db ##
+  ## This should only fire if there is a job present ##
   def sync_all
-    Rails.logger.info ShopifyAPI::Product.find(:all, params: { title: "Beauty Night Audrey" })
+
+    # => Define Job
+    # => This has to be done randomly because ActiveJob doesn't give any Job ID
+    job = Meta::Sync.create ref: SecureRandom.uuid, val: "Started: #{DateTime.now}"
+
+    # => Cycle
+    # => Adds the various id's to the queue and then the sidekiq system goes through them
+    self.ids.each do |product|
+      SyncJob.perform_later product, job.ref
+    end
 
     redirect_to action: :index
   end

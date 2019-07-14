@@ -59,7 +59,7 @@ $(document).on 'turbolinks:load', ->
     initComplete: ->
       $("div.toolbar")
         .html('
-          <% {"✔️ Sync All" => sync_all_products_path, "❌ Delete All" => destroy_all_products_path, "💾 Import" => import_products_path}.each do |k,v| %>
+          <% {"✔️ Sync All" => sync_all_products_path, "❌ Delete All" => destroy_all_products_path, "💾 Import All" => import_products_path}.each do |k,v| %>
             <%= link_to k, v, class: "btn shadow-none", method: (k.parameterize(separator: "_") == "delete_all" ? :delete : nil), data: { confirm: "Are You Sure?"}, id: k.parameterize(separator: "_") %>\
           <% end %>
         ')
