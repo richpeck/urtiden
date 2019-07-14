@@ -64,7 +64,16 @@ $(document).on("ajax:beforeSend", "a.sync", () ->
 ## Triggers when the DOM is ready to be manipulated (IE is 100% effective) ##
 $(document).ready ->
 
-  ## Callback ##
+  ## Sync ##
+  ## Due to the sync value being set on refresh, we need to manage the buttons from document.ready ##
+  sync_queue = $("body").data("sync-queue")
+
+  console.log sync_queue
+
+  ###################################
+  ###################################
+
+  ## Buttons ##
   callback = (mutations) ->
 
     ## Catches any Mutations that happen ##
@@ -72,24 +81,7 @@ $(document).ready ->
 
       ## Attributes ##
       ## Allows us to differentate depending on the different attributes of the target node ##
-      if (mutation.type == 'attributes')
-
-        ## Sync ##
-        ## This basically allows us to determine whether a sync job is running ##
-        ## Because we have to adapt this via JS, we need to append the queue number to the body tag ##
-        if (mutation.attributeName == 'data-sync-queue')
-
-          ## Count ##
-          count = $(mutation.target).data("sync-queue")
-
-          ## Action ##
-          ## If sync is in progress, show the button that stops it from running ##
-          if count <= 0
-            console.log(count)
-
-        ## Buttons ##
-        ## This blanks out buttons when the "products-count" is listed as 0 ##
-        if (mutation.attributeName == 'data-products-count') ## products-count has been updated
+      if (mutation.type == 'attributes' && mutation.attributeName == 'data-products-count') ## products-count has been updated
 
           ## Count ##
           count = $(mutation.target).data("products-count")
