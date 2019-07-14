@@ -30,8 +30,8 @@ class SyncJob < ActiveJob::Base
   def perform(shop_id, product_id, job_id)
 
     # => Sync
-    @shop     = Shop.find_by shop_id
-    @product  = @shop.products.find product_id
+    @shop = Shop.find_by shop_id
+    @product = @shop.products.find product_id
     @product.sync!
 
     # => Update

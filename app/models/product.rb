@@ -43,6 +43,36 @@ class Product < ApplicationRecord
   #################################
   #################################
 
+   # => Sync All
+   # => Allows us to sync every product
+   def self.sync_all
+
+     # => Define Job
+     # => This has to be done randomly because ActiveJob doesn't give any Job ID
+     job = Meta::Sync.create ref: SecureRandom.uuid, val: "Started: #{DateTime.now}"
+
+     # => Cycle
+     # => Adds the various id's to the queue and then the sidekiq system goes through them
+     self.ids.each do |product|
+       SyncJob.perform_later product, job.ref
+     end
+
+   end
+
+ #################################
+ #################################
+
+     # => Queue Size
+     # => Should be in helper but had to move her eto get working with 'whenever' gem
+     def self.queue_size
+       scheduled = Sidekiq::ScheduledSet.new
+       queued    = Sidekiq::Queue.new("sync")
+       scheduled.size + queued.size
+     end
+
+  #################################
+  #################################
+
     ## Sync ##
     ## This syncs the product with Shopify ##
     ## @product.sync! ##
