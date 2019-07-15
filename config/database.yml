@@ -29,12 +29,7 @@ test:
   database: db/test.sqlite3
 
 staging:
-  adapter:  <%= Rails.application.credentials.dig(:staging, :db, :adpt) %>
-  database: <%= Rails.application.credentials.dig(:staging, :db, :name) %>
-  username: <%= Rails.application.credentials.dig(:staging, :db, :user) %>
-  password: <%= Rails.application.credentials.dig(:staging, :db, :pass) %>
-  host:     <%= Rails.application.credentials.dig(:staging, :db, :host) %>
-  port:     <%= Rails.application.credentials.dig(:staging, :db, :port) %>
+  <<: *prod
 
 production:
   <<: *prod
