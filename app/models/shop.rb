@@ -21,6 +21,7 @@ class Shop < ActiveRecord::Base
 
   ## Associations ##
   has_many :products, dependent: :delete_all
+  has_many :queues, class_name: "Sync", dependent: :delete_all
 
   ## Shopify ##
   def api_version
