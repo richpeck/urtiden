@@ -17,6 +17,9 @@ prod: &prod
   host:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) %>
   port:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :port) %>
 
+####################################################
+####################################################
+
 development:
   <<: *default
   database: db/development.sqlite3
@@ -33,3 +36,6 @@ staging:
 
 production:
   <<: *prod
+
+####################################################
+####################################################

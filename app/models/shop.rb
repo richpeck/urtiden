@@ -71,6 +71,7 @@ class Shop < ActiveRecord::Base
       begin
 
         ## Get file and download to local system ##
+        ## larve CSV files - https://dalibornasevic.com/posts/68-processing-large-csv-files-with-ruby ##
         raw = RestClient::Request.execute(
           method:       :post,
           url:          Rails.application.credentials.dig(Rails.env.to_sym, :api, :endpoint) + "csv.php",
@@ -78,13 +79,11 @@ class Shop < ActiveRecord::Base
           raw_response: true
         )
 
-        Rails.logger.info raw.file.path
-
         ## Show response (might be huge) ##
         ## This is where we should put all the products into the local db ##
         ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
-        CSV.forEach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }) do |product|
-          new_products << products.new(product)
+        CSV.foreach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }) do |product|
+          new_products << products.new(product.to_h)
         end
 
         ## Products ##
