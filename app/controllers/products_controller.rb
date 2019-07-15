@@ -143,20 +143,10 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Action ##
     respond_to do |format|
+      format.js   { render json: @products.to_json }
       format.html { flash[:notice] = pluralize(@products.count, "Products") + " Imported"; redirect_to action: :index }
-      format.js { render json: @products.to_json }
     end
 
-  end
-
-  ###############################################
-  ###############################################
-
-  private
-
-  ## Params ##
-  def product_params
-    params.require(:product).permit(:name)
   end
 
   ###############################################
