@@ -84,7 +84,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   def destroy_all
     destroyed = @products.delete_all # => returns number of items deleted
 
-    flash[:notice] = pluralize(destroyed, "Products") + " Destroyed"
+    flash[:notice] = pluralize(destroyed, "Products") + " Removed"
     redirect_to action: :index
   end
 

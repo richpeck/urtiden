@@ -52,7 +52,8 @@ class Shop < ActiveRecord::Base
   #####################################
 
     ## Import ##
-    def import
+    ## Define var as argument ##
+    def import new_products=[]
 
       ## curl -k --data \
       ## "data=username%3DUSERNAME%26password%3DPASSWORD%26pid%3DPORTAL ID%26lid%3DLANGUAGE ID" \ ##
@@ -66,29 +67,33 @@ class Shop < ActiveRecord::Base
 
       ## Allows us to connect to the system ##
       ## We just need to connect to the server and download the CSV for processing ##
-      @connection = Faraday.new url: Rails.application.credentials.dig(Rails.env.to_sym, :api, :endpoint)
-      response = @connection.post 'csv.php' do |req| # => https://gist.github.com/narath/9e74cb7dd17050c76936fded2861f2d1
-         req.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-         req.body = URI.encode_www_form({"data": params})
+      ## https://stackoverflow.com/a/9995704/1143732 ##
+      begin
+
+        ## Get file and download to local system ##
+        raw = RestClient::Request.execute(
+          method:       :post,
+          url:          Rails.application.credentials.dig(Rails.env.to_sym, :api, :endpoint) + "csv.php",
+          payload:      URI.encode_www_form({"data": params}),
+          raw_response: true
+        )
+
+        Rails.logger.info raw.file.path
+
+        ## Show response (might be huge) ##
+        ## This is where we should put all the products into the local db ##
+        ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
+        CSV.forEach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }) do |product|
+          new_products << products.new(product)
+        end
+
+        ## Products ##
+        ## Create values locally ##
+        products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
+
+      rescue RestClient::ExceptionWithResponse => e
+        raw = e.response
       end
-
-      ## Show response (might be huge) ##
-      ## This is where we should put all the products into the local db ##
-      ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
-      csv = CSV.parse(response.body, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
-
-      ## Convert CSV elements into Product instances ##
-      ## This is mainly for validation purposes ##
-      new_products = []
-
-      ## Cycle through each of the newly created records ## ## csv.uniq.take(1000) - staging ##
-      csv.uniq.each do |product|
-        new_products << products.new(product)
-      end
-
-      ## Products ##
-      ## Create values locally ##
-      products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
 
       ## Return ##
       return products

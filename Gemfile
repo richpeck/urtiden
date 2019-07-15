@@ -80,7 +80,7 @@ gem 'shopify_app', '~> 11.0'                          # => Allows us to integrat
 gem 'exception_handler', '~> 0.8.0.0'                 # => Without FL gem, need to add this specifically
 gem 'bootsnap', '~> 1.3', '>= 1.3.2', require: false  # => Boot caching (introduced in 5.2.x)
 gem 'friendly_id', github: 'norman/friendly_id'       # => Fixes for Rails 6.0.0.rc1
-gem 'faraday', '~> 0.15.4'                            # => Faraday (used for API connection)
+gem 'rest-client', '~> 2.1.0.rc1'                     # => CSV direct download (no streaming)
 
 ## Data Management ##
 ## Gives us the ability to manage the products within the store ##

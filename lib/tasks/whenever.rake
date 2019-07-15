@@ -19,7 +19,7 @@
 ## New ##
 ## Updates "whenever" to include any updates from ./config/schedule.rb ##
 Rake::Task["assets:precompile"].enhance do
-  Rails.env.development? ? system("whenever") : system("whenever --update-crontab")
+  !Rails.env.production? ? system("whenever") : system("whenever --update-crontab")
 end
 
 ############################################
