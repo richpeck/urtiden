@@ -90,16 +90,22 @@ body
       right: 0
 
   // Page Link
-  .page-link
-    border:
-      color: #007bff !important
-    &:hover
+  .page-item
+    &.active
+      a
+        background:
+          color: rgba(0,0,0,1) !important
+    .page-link
+      color: rgba(0,0,0,1)
       border:
-        color: #007bff
-    &:active,
-    &:focus
-      background:
-        color: black
+        color: rgba(0,0,0,1) !important
+      &:hover
+        border:
+          color: rgba(0,0,0,1)
+      &:active,
+      &:focus
+        background:
+          color: black
 
   // Links
   a,
@@ -148,7 +154,7 @@ body
             a
               &:active,
               &:focus
-                background: #007bff !important
+                background: rgba(0,0,0,1) !important
           a
             transition: background 0.15s ease-in-out
             &:active,
@@ -158,7 +164,7 @@ body
                 shadow: none !important
             &:active,
             &:focus
-              background: rgba(#007bff, 0.15) !important
+              background: rgba(0,0,0, 0.15) !important
 
   // Table
   table
@@ -178,14 +184,23 @@ body
     // Header
     thead
       tr
+        &:hover
+          th
+            span
+              opacity: 0.6
+            &:hover
+              span
+                opacity: 1
         th
           color: rgba(#fff,1)
-          background: rgba(#711FDE,1)
+          background: rgba(0,0,0,1)
           border:
-            top:    2px solid #111 !important
-            bottom: 2px solid #111 !important
+            top:    0 !important
+            bottom: 0 !important
           vertical:
             align: middle !important
+          span
+            transition: opacity 0.15s ease-in-out
 
     // Body
     tbody

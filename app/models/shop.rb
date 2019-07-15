@@ -22,6 +22,12 @@ class Shop < ActiveRecord::Base
   #####################################
   #####################################
 
+    ## Virtual Attribute ##
+    attr_accessor :imported
+
+  #####################################
+  #####################################
+
     ## Associations ##
     has_many :products, dependent: :delete_all
     has_many :queues, class_name: "Sync", dependent: :delete_all
@@ -85,7 +91,8 @@ class Shop < ActiveRecord::Base
       products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
 
       ## Return ##
-      products
+      #products.imported = new_products.count
+      return products
 
     end
 
