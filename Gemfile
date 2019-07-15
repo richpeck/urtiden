@@ -81,6 +81,7 @@ gem 'exception_handler', '~> 0.8.0.0'                 # => Without FL gem, need 
 gem 'bootsnap', '~> 1.3', '>= 1.3.2', require: false  # => Boot caching (introduced in 5.2.x)
 gem 'friendly_id', github: 'norman/friendly_id'       # => Fixes for Rails 6.0.0.rc1
 gem 'rest-client', '~> 2.1.0.rc1'                     # => CSV direct download (no streaming)
+gem 'lograge', '~> 0.11.2'                            # => LogRage (silences log for certain actions)
 
 ## Data Management ##
 ## Gives us the ability to manage the products within the store ##

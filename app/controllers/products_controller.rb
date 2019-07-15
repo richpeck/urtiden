@@ -26,7 +26,8 @@ require 'sidekiq/api' # => Allows us to check if queue is running
 ## Products Controller ##
 ## Allows us to manage imported products with Shopify ##
 class ProductsController < ShopifyApp::AuthenticatedController
-  include ActionView::Helpers::TextHelper # => Required for pluralize
+  include ActionView::Helpers::TextHelper   # => Required for pluralize
+  include ActionView::Helpers::NumberHelper # => Required for number_with_delimiter
 
   ############################################################
   ############################################################
@@ -84,7 +85,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   def destroy_all
     destroyed = @products.delete_all # => returns number of items deleted
 
-    flash[:notice] = pluralize(destroyed, "Products") + " Removed"
+    flash[:notice] = pluralize(number_with_delimiter(destroyed), "Products") + " Removed"
     redirect_to action: :index
   end
 
@@ -129,7 +130,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
       end
 
       # => Update Queue Size
-      @job.update_attributes queue_size: @products.count
+      @job.update queue_size: @products.count
 
     end
 
@@ -167,7 +168,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Action ##
     respond_to do |format|
       format.js   { render json: @products.to_json }
-      format.html { flash[:notice] = pluralize(@products.count, "Products") + " Imported"; redirect_to action: :index }
+      format.html { flash[:notice] = pluralize(number_with_delimiter(@products.count), "Products") + " Updated"; redirect_to action: :index }
     end
 
   end

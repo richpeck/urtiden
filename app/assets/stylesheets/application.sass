@@ -224,8 +224,10 @@ body
               text:
                 decoration: none
               &.disabled
-                &:hover
-                  pointer: not-allowed
+                cursor: not-allowed !important
+                pointer:
+                  events: none
+
           // Empty
           &.dataTables_empty
             font:
@@ -233,6 +235,7 @@ body
             a
               text:
                 decoration: underline
+
           a
             color: rgba(0,0,0,1)
             font:

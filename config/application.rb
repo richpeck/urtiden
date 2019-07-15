@@ -28,6 +28,12 @@ module Urtiden
     ##########################################
     ##########################################
 
+      ## Libs ##
+      #require 'lograge/sql/extension' # => should be in initializer but we'll place it here for now
+
+    ##########################################
+    ##########################################
+
       # => Rails 6.0
       # => Allows us to use all the defaults etc
       config.load_defaults 6.0
@@ -76,6 +82,15 @@ module Urtiden
 
     ##########################################
     ##########################################
+
+      # => LogRage
+      # => Silences logging (needed for ActiveRecord Import)
+      # => https://github.com/roidrage/lograge
+      config.lograge.enabled        = true
+      config.lograge.ignore_actions = ['ProductsController#import']
+
+      ##########################################
+      ##########################################
 
   end
 end

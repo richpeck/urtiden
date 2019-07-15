@@ -88,10 +88,12 @@ class Shop < ActiveRecord::Base
 
         ## Products ##
         ## Create values locally ##
-        products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
+        ActiveRecord::Base.logger.silence do
+          products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
+        end
 
       rescue RestClient::ExceptionWithResponse => e
-        raw = e.response
+        Rails.logger.info e.response
       end
 
       ## Return ##
