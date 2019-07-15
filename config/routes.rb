@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       get    :import      # => Imports products from the supplier (WWT.it) and shows them in our dashboard area
       delete :destroy_all # => Removes all products
       get    :sync_all    # => Sets up a sync of all the products
+      delete :cancel_sync # => Cancel product sync
     end
 
   end # => Functionality

@@ -15,7 +15,8 @@
 ############################################################
 
 ## Libs ##
-require 'csv' # => Allows us to read the CSV
+require 'csv'         # => Allows us to read the CSV
+require 'sidekiq/api' # => Allows us to check if queue is running
 
 ############################################################
 ############################################################
@@ -47,14 +48,10 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## This is the main page they see when they want to match products with their store ##
   def index
 
-    #Product.update_all stock: 10000
-    #product = Product.first
-    #product.update name: "test"
-
     ## The way it works is two-fold ##
     ## Firstly, the user connects to Shopify - this is done via the app ##
     ## This is done because it's the best way to get it working ##
-    ## - ##
+
     ## After this, we are able to populate the dashboard with the user's imported products etc ##
     ## Allowing us to sync them together as required ##
     @products ||= ShopifyAPI::Product.find(:all, params: { limit: 10 })
@@ -106,7 +103,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     if (@shop.queues.where(finished_at: nil).pluck(:queue_size).first || 0) > 0
 
       ## Don't do anything & just return a notice ##
-      flash[:notice] = "Queue already present" 
+      flash[:notice] = "Queue already present"
 
     else
 
