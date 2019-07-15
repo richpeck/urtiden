@@ -65,6 +65,10 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
   end
 
+  ## Cancel All ##
+  ## Stops current queue + removes it completely ##
+   
+
   ###############################################
   ###############################################
 
