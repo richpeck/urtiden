@@ -73,9 +73,11 @@ $(document).on("ajax:beforeSend", "a.sync", () ->
 
 ## Action Buttons ##
 ## https://stackoverflow.com/a/51175368/1143732 ##
-$(document).on 'draw.dt', () ->
+## https://stackoverflow.com/questions/2534089/jquery-multiple-events-to-trigger-the-same-function ##
+$(document).on 'draw.dt init.dt', () ->
    if (sync_queue > 0)
-     $("a.sync").remove() # remove "sync" buttons from "action" column 
+     $("a.sync").remove() # remove "sync" buttons from "action" column
+     $("#sync_all").remove() # stop "sync_all" button from being present
 
 #########################################################
 #########################################################
@@ -97,7 +99,7 @@ $(document).ready ->
     ## Catches any Mutations that happen ##
     mutations.forEach (mutation) ->
 
-      ## Attributes ##
+      ## Products ##
       ## Allows us to differentate depending on the different attributes of the target node ##
       if (mutation.type == 'attributes' && mutation.attributeName == 'data-products-count') ## products-count has been updated
 
@@ -105,11 +107,13 @@ $(document).ready ->
           count = $(mutation.target).data("products-count")
 
           ## Action ##
-          if count <= 0
-            $("#sync_all").addClass("disabled")
+          if (count <= 0)
+            if $("#sync_all").length
+              $("#sync_all").addClass("disabled")
             $("#delete_all").addClass("disabled")
           else
-            $("#sync_all").removeClass("disabled")
+            if $("#sync_all").length
+              $("#sync_all").removeClass("disabled")
             $("#delete_all").removeClass("disabled")
 
   ## Mutation Observer ##

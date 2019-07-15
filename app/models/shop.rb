@@ -45,7 +45,7 @@ class Shop < ActiveRecord::Base
 
     ## Queue Size ##
     def queue_size
-      0
+      queues.where(finished_at: nil).pluck(:queue_size).first || 0
     end
 
   #####################################
@@ -91,7 +91,6 @@ class Shop < ActiveRecord::Base
       products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
 
       ## Return ##
-      #products.imported = new_products.count
       return products
 
     end

@@ -27,18 +27,17 @@ class SyncJob < ActiveJob::Base
 
   ## Perform Queue ##
   ## This allows us to send ID's from Resque/Sidekik and process them sequentially ##
-  def perform(shop_id, product_id, job_id)
+  def perform job_id, product_id
 
     # => Sync
-    @shop = Shop.find_by shop_id
-    @product = @shop.products.find product_id
-    @product.sync!
+    @job     = Sync.find job_id
+    @product = @job.shop.products.find product_id
+
+    # => Queue Size
+    @job.decrement(:queue_size) if @product.sync!
 
     # => Update
-    if @shop.queue_size == 0
-      queue = @shop.queues.find(job_id)
-      queue.update val: queue.val + "\nFinished: #{DateTime.now}"
-    end
+    @job.update(finished_at: Time.now) if @job.queue_size <= 0
 
   end
 

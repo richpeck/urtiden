@@ -101,16 +101,31 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## This should only fire if there is a job present ##
   def sync_all
 
-    # => Define Job
-    # => This has to be done randomly because ActiveJob doesn't give any Job ID
-    job = Meta::Sync.create ref: SecureRandom.uuid, val: "Started: #{DateTime.now}"
+    ## Validation ##
+    ## In case the "sync_all" button is pressed ##
+    if (@shop.queues.where(finished_at: nil).pluck(:queue_size).first || 0) > 0
 
-    # => Cycle
-    # => Adds the various id's to the queue and then the sidekiq system goes through them
-    self.ids.each do |product|
-      SyncJob.perform_later product, job.ref
+      ## Don't do anything & just return a notice ##
+      flash[:notice] = "Queue already present" 
+
+    else
+
+      # => Define Job
+      # => This has to be done randomly because ActiveJob doesn't give a Job ID
+      @job = @shop.queues.create
+
+      # => Cycle
+      # => Adds the various id's to the queue and then the sidekiq system goes through them
+      @products.pluck(:id_product).each do |product|
+        #SyncJob.perform_later @job.id, product
+      end
+
+      # => Update Queue Size
+      @job.update_attributes queue_size: @products.count
+
     end
 
+    # => Redirect back to index
     redirect_to action: :index
   end
 
@@ -139,7 +154,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Import ##
     ## Runs from Shop model & returns list of newly imported products ##
-    @products = @shop.import # => Overrides ActiveRecord::Import on this model
+    @products = @shop.import # => Overrides ActiveRecord::Import on this model (required to be used in whenever gem)
 
     ## Action ##
     respond_to do |format|
