@@ -59,8 +59,14 @@ $(document).on 'turbolinks:load', ->
     initComplete: ->
       $("div.toolbar")
         .html('
-          <% {"✔️ Sync All" => sync_all_products_path, "🕒 Queue Processing (#{Shop.first.queue_size} Items Remaining)" => cancel_sync_products_path, "❌ Delete All" => destroy_all_products_path, "💾 Import All" => import_products_path}.each do |k,v| %>
-            <%= link_to k, v, class: "btn shadow-none", method: (k.parameterize(separator: "_") == "delete_all" ? :delete : nil), data: { confirm: "Are You Sure?"}, id: k.parameterize(separator: "_") %>\
+          <% [
+              {title: "✔️ Sync All", path: sync_all_products_path},
+              {title: "❌ Delete All", path: destroy_all_products_path, method: :delete},
+              {title: "🕒 Queue Processing (#{Shop.first.queue_size} Items Remaining)", path: cancel_sync_products_path, method: :delete, id: "cancel_sync"},
+              {title: "💾 Import All", path: import_products_path}
+            ].each do |hash|
+          %>
+            <%= link_to hash[:title], hash[:path], class: "btn shadow-none", method: (hash[:method] || nil), data: { confirm: (hash[:message] || "Are You Sure?")}, id: (hash[:id] || hash[:title].parameterize(separator: "_")) %>\
           <% end %>
         ')
 

@@ -31,43 +31,50 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ############################################################
   ############################################################
 
-  ## Before Action ##
-  before_action Proc.new { @shop = Shop.find_by shopify_domain: shop_session.domain }
-  before_action Proc.new { @products = @shop.products }
+    ## Before Action ##
+    before_action Proc.new { @shop = Shop.find_by shopify_domain: shop_session.domain }
+    before_action Proc.new { @products = @shop.products }
 
   ############################################################
   ############################################################
 
-  ## Layout ##
-  layout Proc.new { |c| false if c.request.xhr? }
+    ## Layout ##
+    layout Proc.new { |c| false if c.request.xhr? }
 
   ############################################################
   ############################################################
 
-  ## Index ##
-  ## This is the main page they see when they want to match products with their store ##
-  def index
+    ## Index ##
+    ## This is the main page they see when they want to match products with their store ##
+    def index
 
-    ## The way it works is two-fold ##
-    ## Firstly, the user connects to Shopify - this is done via the app ##
-    ## This is done because it's the best way to get it working ##
+      ## The way it works is two-fold ##
+      ## Firstly, the user connects to Shopify - this is done via the app ##
+      ## This is done because it's the best way to get it working ##
 
-    ## After this, we are able to populate the dashboard with the user's imported products etc ##
-    ## Allowing us to sync them together as required ##
-    @products ||= ShopifyAPI::Product.find(:all, params: { limit: 10 })
+      ## After this, we are able to populate the dashboard with the user's imported products etc ##
+      ## Allowing us to sync them together as required ##
+      @products ||= ShopifyAPI::Product.find(:all, params: { limit: 10 })
 
-    ## Response ##
-    ## This is used by the ajax datatables gem ##
-    respond_to do |format|
-      format.html
-      format.json { render json: ProductDatatable.new(params, shop: @shop, view_context: view_context) } # => https://github.com/jbox-web/ajax-datatables-rails#4-setup-the-controller-action
+      ## Response ##
+      ## This is used by the ajax datatables gem ##
+      respond_to do |format|
+        format.html
+        format.json { render json: ProductDatatable.new(params, shop: @shop, view_context: view_context) } # => https://github.com/jbox-web/ajax-datatables-rails#4-setup-the-controller-action
+      end
+
     end
 
-  end
+  ###############################################
+  ###############################################
 
-  ## Cancel All ##
-  ## Stops current queue + removes it completely ##
-   
+    ## Cancel All ##
+    ## Stops current queue + removes it completely ##
+    def cancel_sync
+      Sync.delete_all
+      flash[:notice] = "Sync Cancelled"
+      redirect_to action: :index
+    end
 
   ###############################################
   ###############################################

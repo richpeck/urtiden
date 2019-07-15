@@ -71,24 +71,30 @@ $(document).on("ajax:beforeSend", "a.sync", () ->
 #########################################################
 #########################################################
 
-## Action Buttons ##
-## https://stackoverflow.com/a/51175368/1143732 ##
-## https://stackoverflow.com/questions/2534089/jquery-multiple-events-to-trigger-the-same-function ##
-$(document).on 'draw.dt init.dt', () ->
-   if (sync_queue > 0)
-     $("a.sync").remove() # remove "sync" buttons from "action" column
-     $("#sync_all").remove() # stop "sync_all" button from being present
-
-#########################################################
-#########################################################
-
 ## Ready ##
 ## Triggers when the DOM is ready to be manipulated (IE is 100% effective) ##
 $(document).ready ->
 
-  ## Sync ##
-  ## Due to the sync value being set on refresh, we need to manage the buttons from document.ready ##
-  sync_queue = $("body").data("sync-queue")
+  ###################################
+  ###################################
+
+  ## Action Buttons ##
+  ## https://stackoverflow.com/a/51175368/1143732 ##
+  ## https://stackoverflow.com/questions/2534089/jquery-multiple-events-to-trigger-the-same-function ##
+  $(document).on 'draw.dt init.dt', () ->
+
+    ## Sync ##
+    ## Due to the sync value being set on refresh, we need to manage the buttons from document.ready ##
+    sync_queue = $("body").data("sync-queue")
+
+    console.log(sync_queue)
+
+    ## Actions ##
+    if (sync_queue > 0)
+      $("a.sync").remove() # remove "sync" buttons from "action" column
+      $("#sync_all").remove() # stop "sync_all" button from being present
+    else
+      $("#cancel_sync").remove()
 
   ###################################
   ###################################
@@ -115,6 +121,9 @@ $(document).ready ->
             if $("#sync_all").length
               $("#sync_all").removeClass("disabled")
             $("#delete_all").removeClass("disabled")
+
+  ###################################
+  ###################################
 
   ## Mutation Observer ##
   ## Allows us to determine if the buttons should show or not ##
