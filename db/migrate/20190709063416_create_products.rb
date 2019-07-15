@@ -68,8 +68,8 @@ class CreateProducts < ActiveRecord::Migration::Current
         ## Timestamps ##
         ## Allows for created_at and updated_at values ##
         t.datetime    :synced_at
-        t.datetime    :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
-        t.datetime    :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' }
+        t.datetime    :created_at, null: false, default: -> { 'CURRENT_TIMESTAMP' } # => required to get activerecord-import working
+        t.datetime    :updated_at, null: false, default: -> { 'CURRENT_TIMESTAMP' } # => required to get activerecord-import working
 
         ## Index ##
         ## Gives us unique reference for products ##

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_09_063416) do
+ActiveRecord::Schema.define(version: 2019_07_15_072152) do
 
   create_table "products", force: :cascade do |t|
     t.integer "shop_id"
@@ -49,6 +49,15 @@ ActiveRecord::Schema.define(version: 2019_07_09_063416) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["shopify_domain"], name: "index_shops_on_shopify_domain", unique: true
+  end
+
+  create_table "syncs", force: :cascade do |t|
+    t.integer "shop_id"
+    t.integer "queue_size"
+    t.datetime "finished_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["shop_id"], name: "index_syncs_on_shop_id"
   end
 
 end
