@@ -26,12 +26,10 @@ staging:
   username: ba7c9bc7e584c4
   password: a9896035
   host:     eu-cdbr-west-02.cleardb.net
-  port:     3306
 
 production:
-  adapter:  <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :adpt) %>
-  database: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :name) %>
-  username: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :user) %>
-  password: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :pass) %>
-  host:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) %>
-  port:     <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :port) %>
+  adapter:  mysql2
+  database: heroku_1b457218c5538a9
+  username: ba7c9bc7e584c4
+  password: a9896035
+  host:     eu-cdbr-west-02.cleardb.net
