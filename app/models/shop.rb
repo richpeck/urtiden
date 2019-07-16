@@ -84,10 +84,10 @@ class Shop < ActiveRecord::Base
         ## Import ##
         ## Due to the heavy load, this has been extracted into a worker
         if Rails.env.production?
-          new_products.each { |product| ImportJob.perform_later id, imports.import([product]).id }
+          new_products.each { |product| ImportJob.perform_later id, imports.import([product], on_duplicate_key_ignore: true).first.id }
         else
           ActiveRecord::Base.logger.silence do
-            products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
+            products.import new_products, batch_size: 500, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
           end
         end
 
