@@ -2,8 +2,6 @@
 # https://stackoverflow.com/a/32717779/1143732
 # find . -name '*.sh' | xargs git update-index --chmod=+x
 
-rails db:purge;
-
 echo "Migrating...";
 rails db:migrate;
 

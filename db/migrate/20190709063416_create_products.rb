@@ -74,7 +74,7 @@ class CreateProducts < ActiveRecord::Migration::Current
 
         ## Index ##
         ## Gives us unique reference for products ##
-        t.index [:shop_id, :id_product], unique: true
+        t.index [:shop_id, :id_product], unique: true # => This gives us a contraint between store_id and id_product (allows for activerecord-import) -> https://stackoverflow.com/a/6170023/1143732
 
       end
 
