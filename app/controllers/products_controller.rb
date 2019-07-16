@@ -164,7 +164,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Action ##
     respond_to do |format|
       format.js   { render json: @products.to_json }
-      format.html { flash[:notice] = pluralize(number_with_delimiter(@products.count), "Products") + " Imported"); redirect_to action: :index }
+      format.html { flash[:notice] = pluralize(number_with_delimiter(@products.count), "Products") + " Imported"; redirect_to action: :index }
     end
 
   end

@@ -25,7 +25,7 @@ class Job < ApplicationRecord
   ## Counter Cache ##
   ## Uses "counter_culture" gem ##
   ## This is used to keep track of how many jobs have been completed in the sync model ##
-  counter_culture :sync#, column_name: proc {|model| model.finished_at ? 'jobs_counter' : nil }
+  counter_culture :sync, column_name: proc {|model| model.finished_at ? 'jobs_counter' : nil }
 
   ## After Create ##
   ## Adds the newly created job record to ActiveJob Queue ##
