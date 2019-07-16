@@ -44,6 +44,7 @@ class CreateProducts < ActiveRecord::Migration::Current
         ## Content ##
         ## Allows us to manage the data etc ##
         t.integer :ean, limit: 8
+        t.string  :type 
         t.text    :name
         t.text    :slug
         t.string  :reference

@@ -23,8 +23,9 @@ class Shop < ActiveRecord::Base
   #####################################
 
     ## Associations ##
+    has_many :imports,  dependent: :delete_all # => required to save CSV data
     has_many :products, dependent: :delete_all
-    has_many :syncs, dependent: :delete_all
+    has_many :syncs,    dependent: :delete_all
 
   #####################################
   #####################################
@@ -83,7 +84,7 @@ class Shop < ActiveRecord::Base
         ## Import ##
         ## Due to the heavy load, this has been extracted into a worker
         if Rails.env.production?
-          new_products.each { |product| ImportJob.perform_later id, JSON.dump(product) }
+          new_products.each { |product| ImportJob.perform_later id, imports.create(product).id }
         else
           ActiveRecord::Base.logger.silence do
             products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku

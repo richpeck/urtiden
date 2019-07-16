@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2019_07_16_075914) do
     t.integer "id_supplier"
     t.string "id_shopify"
     t.integer "ean", limit: 8
+    t.string "type"
     t.text "name"
     t.text "slug"
     t.string "reference"

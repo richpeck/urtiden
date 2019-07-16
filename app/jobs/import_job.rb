@@ -25,14 +25,19 @@ class ImportJob < ActiveJob::Base
 
   ## Perform Queue ##
   ## This allows us to send ID's from Resque/Sidekik and process them sequentially ##
-  def perform id, product
+  def perform shop, product
 
     ## Vars ##
-    @shop = Shop.find id
+    @shop = Shop.find shop
+    @product = @shop.imports.find product
 
     ## Products ##
     ## Create values locally ##
-    @shop.products.import JSON.load(product), validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
+    @shop.products.import @product, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
+
+    ## Remove Import ##
+    ## This is required to ensure we keep the db clean ##
+    @product.destroy
 
   end
 
