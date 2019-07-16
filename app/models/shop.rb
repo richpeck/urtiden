@@ -79,16 +79,11 @@ class Shop < ActiveRecord::Base
         ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
         csv = CSV.read(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
-        new_products = []
-        csv.uniq.each do |product|
-          new_products << products.new(product)
-        end
-
         ## Import ##
         ## Allows us to import into the db ##
         ## batch_size looks like it could help ##
         ActiveRecord::Base.logger.silence do
-          products.import new_products, batch_size: 5000, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
+          products.import csv.uniq, batch_size: 5000, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
         end
 
       rescue RestClient::ExceptionWithResponse => e
