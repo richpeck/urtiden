@@ -77,19 +77,12 @@ class Shop < ActiveRecord::Base
         ## Show response (might be huge) ##
         ## This is where we should put all the products into the local db ##
         ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
-        CSV.foreach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }) do |product|
-          new_products << product.to_h #products.new(product.to_h)
-        end
+        new_products = CSV.foreach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
-        ## Import ##
-        ## Due to the heavy load, this has been extracted into a worker
-        if Rails.env.production?
-          new_products.each { |product| ImportJob.perform_later id, imports.import([product], on_duplicate_key_ignore: true).first.id }
-        else
-          ActiveRecord::Base.logger.silence do
-            products.import new_products, batch_size: 500, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
-          end
-        end
+
+        products.import new_products, batch_size: 500, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
+
+
 
       rescue RestClient::ExceptionWithResponse => e
         Rails.logger.info e.response
