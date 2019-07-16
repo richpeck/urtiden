@@ -80,7 +80,7 @@ module Urtiden
       # => LogRage
       # => Silences logging (needed for ActiveRecord Import)
       # => https://github.com/roidrage/lograge
-      config.lograge.enabled = true
+      #config.lograge.enabled = true
 
     ##########################################
     ##########################################
