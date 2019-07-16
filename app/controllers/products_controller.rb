@@ -159,12 +159,12 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Import ##
     ## Runs from Shop model & returns list of newly imported products ##
-    @products = @shop.import # => Overrides ActiveRecord::Import on this model (required to be used in whenever gem)
+    products = @shop.import # => Overrides ActiveRecord::Import on this model (required to be used in whenever gem)
 
     ## Action ##
     respond_to do |format|
-      format.js   { render json: @products.to_json }
-      format.html { flash[:notice] = pluralize(number_with_delimiter(@products.count), "Products") + " Imported"; redirect_to action: :index }
+      format.js   { render json: products.to_json }
+      format.html { flash[:notice] = pluralize(number_with_delimiter(products.count), "Products") + " Imported"; redirect_to action: :index }
     end
 
   end

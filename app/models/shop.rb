@@ -82,9 +82,9 @@ class Shop < ActiveRecord::Base
         ## Import ##
         ## Allows us to import into the db ##
         ## batch_size looks like it could help ##
-        ActiveRecord::Base.logger.silence do
+        #ActiveRecord::Base.logger.silence do
           products.import csv.uniq, batch_size: 5000, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
-        end
+        #end
 
       rescue RestClient::ExceptionWithResponse => e
         Rails.logger.info e.response
