@@ -21,9 +21,9 @@ class SyncJob < ActiveJob::Base
 
   ## Too Many Requests ##
   ## Rescues the update and resubmits to the end of the queue ##
-  rescue_from(StandardError) do
-    retry_job queue: :sync
-  end
+  #rescue_from(StandardError) do
+  #  retry_job queue: :sync
+  #end
 
   ## Perform Queue ##
   ## This allows us to send ID's from Resque/Sidekik and process them sequentially ##
