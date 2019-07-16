@@ -76,7 +76,7 @@ class Shop < ActiveRecord::Base
         ## Show response (might be huge) ##
         ## This is where we should put all the products into the local db ##
         ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
-        CSV.foreach(csv, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }) do |product|
+        CSV.foreach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }) do |product|
           new_products << @shop.products.new(product.to_h)
         end
 
