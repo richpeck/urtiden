@@ -32,9 +32,7 @@ class ImportJob < ActiveJob::Base
 
     ## Products ##
     ## Create values locally ##
-    ActiveRecord::Base.logger.silence do
-      @shop.products.import product, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
-    end
+    @shop.products.import product, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
 
   end
 
