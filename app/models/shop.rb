@@ -47,7 +47,7 @@ class Shop < ActiveRecord::Base
 
     ## Import ##
     ## Define var as argument ##
-    def import new_products=[]
+    def import
 
       ## curl -k --data \
       ## "data=username%3DUSERNAME%26password%3DPASSWORD%26pid%3DPORTAL ID%26lid%3DLANGUAGE ID" \ ##
@@ -81,11 +81,13 @@ class Shop < ActiveRecord::Base
         Rails.logger.info e.response
       end
 
+      ## Return ##
+      return products
+
     end
 
   #####################################
   #####################################
-
 
 end
 
