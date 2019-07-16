@@ -74,15 +74,17 @@ class Shop < ActiveRecord::Base
           raw_response: true
         )
 
+        Rails.logger.info(CSV.parse(raw.file.path))
+
         ## Show response (might be huge) ##
         ## This is where we should put all the products into the local db ##
         ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
-        csv = CSV.parse(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
+        csv = CSV.read(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
         ## Import ##
         ## Allows us to import into the db ##
         ## batch_size looks like it could help ##
-        products.import csv, batch_size: 1000, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
+        products.import csv.uniq, batch_size: 5000, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
 
       rescue RestClient::ExceptionWithResponse => e
         Rails.logger.info e.response
