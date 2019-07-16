@@ -36,7 +36,7 @@ class SyncJob < ActiveJob::Base
 
     ## This is called to ensure we can communicate with Shopify ##
     ## It just manually loads the ShopifyAPI class (which would have normally been done at controller level) ##
-    @job.shop.with_shopify!
+    @job.sync.shop.with_shopify!
     @job.update(finished_at: Time.now) if @job.product.sync!
 
   end
