@@ -48,7 +48,7 @@ class Shop < ActiveRecord::Base
 
     ## Import ##
     ## Define var as argument ##
-    def import new_products=[]
+    def import
 
       ## curl -k --data \
       ## "data=username%3DUSERNAME%26password%3DPASSWORD%26pid%3DPORTAL ID%26lid%3DLANGUAGE ID" \ ##
@@ -74,8 +74,6 @@ class Shop < ActiveRecord::Base
           raw_response: true
         )
 
-        Rails.logger.info(CSV.parse(raw.file.path))
-
         ## Show response (might be huge) ##
         ## This is where we should put all the products into the local db ##
         ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
@@ -84,7 +82,9 @@ class Shop < ActiveRecord::Base
         ## Import ##
         ## Allows us to import into the db ##
         ## batch_size looks like it could help ##
-        products.import csv.uniq, batch_size: 5000, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
+        ActiveRecord::Base.logger.silence do
+          products.import csv.uniq, batch_size: 5000, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
+        end
 
       rescue RestClient::ExceptionWithResponse => e
         Rails.logger.info e.response
