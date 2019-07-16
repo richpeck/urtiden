@@ -31,7 +31,7 @@ if Object.const_defined?("ShopifyApp")
 
     config.embedded_app = true
     config.after_authenticate_job = false
-    config.api_version = "2019-04"
+    config.api_version = "2019-07"
     config.session_repository = Shop
   end
 

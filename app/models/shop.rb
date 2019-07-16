@@ -89,7 +89,7 @@ class Shop < ActiveRecord::Base
       end
 
       ## Return ##
-      return CSV.read(raw.file, headers: true) || products
+      return products
 
     end
 

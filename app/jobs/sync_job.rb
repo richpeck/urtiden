@@ -33,7 +33,7 @@ class SyncJob < ActiveJob::Base
     # => Finds specific job and syncs the product
     # => If successful, it posts finished time
     @job = Job.find job_id
-    @job.update(finished_at: Time.now) if @job.product.sync!
+    @job.update(finished_at: Time.now) #if @job.product.sync!
 
   end
 
