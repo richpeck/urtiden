@@ -125,14 +125,14 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
       # => Cycle
       # => Adds the various id's to the queue and then the sidekiq system goes through them
-      @products.take(100).pluck(:id_product).each do |id|
-        #@sync.jobs.create product_id: id # => This calls the ActiveJob perform_later request
+      @products.limit(100).pluck(:id).each do |id|
+        @sync.jobs.create product_id: id # => This calls the ActiveJob perform_later request
       end
 
     end
 
     # => Redirect back to index
-    flash[:notice] = "Sync Started!"
+    flash[:notice] = "Sync Started (#{@sync.jobs.size} Queued)!"
     redirect_to action: :index
   end
 

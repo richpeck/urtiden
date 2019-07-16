@@ -66,7 +66,7 @@ $(document).on 'turbolinks:load', ->
           <% [
               {title: "✔️ Sync All", path: sync_all_products_path},
               {title: "❌ Delete All", path: destroy_all_products_path, method: :delete},
-              {title: "🕒 Queue Processing (#{Shop.first.queue_size} Items Remaining)", path: cancel_sync_products_path, method: :delete, id: "cancel_sync", message: "Cancel?"},
+              {title: "🕒 Queue Processing (#{'123'} Items Remaining)", path: cancel_sync_products_path, method: :delete, id: "cancel_sync", message: "Cancel?"},
               {title: "💾 Import All", path: import_products_path}
             ].each do |hash|
           %>

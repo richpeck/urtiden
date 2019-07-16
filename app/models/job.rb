@@ -35,7 +35,7 @@ class Job < ApplicationRecord
     job = SyncJob.perform_later sync_id, product_id
 
     ## Record its job_id here ##
-    update job_id: job
+    #update job_id: job
 
   end
 
