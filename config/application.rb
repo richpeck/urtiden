@@ -65,13 +65,13 @@ module Urtiden
       # => Hosted at RedisLabs
       # => Both settings required to get it working
       Sidekiq.configure_client do |config|
-        config.redis = { url: "redis://#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :pass)}@#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :host)}:#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :port)}" }
+        config.redis = { url: "redis://#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :pass)}@#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :host)}:#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :port)}", password: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :pass) }
       end
 
       # => Server
       # => Allows us to connect to the right server
       Sidekiq.configure_server do |config|
-        config.redis = { url: "redis://#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :pass)}@#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :host)}:#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :port)}" }
+        config.redis = { url: "redis:/#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :pass)}@#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :host)}:#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :port)}", password: Rails.application.credentials.dig(Rails.env.to_sym, :redis, :pass) }
       end
 
     ##########################################
