@@ -75,7 +75,7 @@ class Shop < ActiveRecord::Base
 
         ## This has to be extracted into a worker ##
         ## Simply too many items for this to work reliably ##
-        ImportJob.perform_now id, raw.file.path
+        ImportJob.perform_later id, raw.file.path
 
       rescue RestClient::ExceptionWithResponse => e
         Rails.logger.info e.response
