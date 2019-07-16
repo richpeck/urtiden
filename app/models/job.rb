@@ -29,13 +29,13 @@ class Job < ApplicationRecord
 
   ## After Create ##
   ## Adds the newly created job record to ActiveJob Queue ##
-  before_create do
+  after_create do
 
     ## Add the job to the queue ##
     job = SyncJob.perform_later self[:id]
 
     ## Record its active_job_id here ##
-    self[:active_job_id] = job
+    update active_job_id: job
 
   end
 
