@@ -73,11 +73,9 @@ class Shop < ActiveRecord::Base
           raw_response: true
         )
 
-        csv = raw.file.path
-
         ## This has to be extracted into a worker ##
         ## Simply too many items for this to work reliably ##
-        #ImportJob.perform_later self[:id], csv
+        ImportJob.perform_later id, raw.file.path.to_s
 
       rescue RestClient::ExceptionWithResponse => e
         Rails.logger.info e.response
