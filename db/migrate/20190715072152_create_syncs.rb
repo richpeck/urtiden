@@ -17,7 +17,7 @@
 ############################################
 
 ## Sync ##
-## id | shop_id | active_job_id | queue_size | created_at | finished_at | updated_at
+## id | shop_id | jobs_count | created_at | updated_at
 class CreateSyncs < ActiveRecord::Migration::Current
 
   #########################################
@@ -30,9 +30,8 @@ class CreateSyncs < ActiveRecord::Migration::Current
 
       ## Create Table ##
       create_table :syncs do |t|
-        t.references :shop 
-        t.integer    :queue_size
-        t.datetime   :finished_at
+        t.references :shop
+        t.integer    :jobs_counter, null: false, default: 0
         t.timestamps
       end
 

@@ -30,7 +30,7 @@ class Shop < ActiveRecord::Base
 
     ## Associations ##
     has_many :products, dependent: :delete_all
-    has_many :queues, class_name: "Sync", dependent: :delete_all
+    has_many :syncs, dependent: :delete_all
 
   #####################################
   #####################################
@@ -45,7 +45,7 @@ class Shop < ActiveRecord::Base
 
     ## Queue Size ##
     def queue_size
-      queues.where(finished_at: nil).pluck(:queue_size).first || 0
+      nil
     end
 
   #####################################

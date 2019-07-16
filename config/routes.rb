@@ -30,6 +30,12 @@ Rails.application.routes.draw do
   # => This is used for oAuth etc
   mount ShopifyApp::Engine, at: '/' # => ShopifyApp Engine (required for oAuth etc)
 
+  # => Sidekiq
+  # => Allows us to monitor Sidekiq queues etc
+  # => Presently no authentication, but we should change that
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   # => Functionality
   # => This allows us to manage the various products within the system
   resources :products, only: [:index, :destroy], path: "" do # => Allows us to manage products within the Shopify store

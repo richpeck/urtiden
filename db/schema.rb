@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_15_072152) do
+ActiveRecord::Schema.define(version: 2019_07_16_075914) do
+
+  create_table "jobs", force: :cascade do |t|
+    t.integer "sync_id"
+    t.integer "product_id"
+    t.string "active_job_id"
+    t.datetime "finished_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["product_id"], name: "index_jobs_on_product_id"
+    t.index ["sync_id"], name: "index_jobs_on_sync_id"
+  end
 
   create_table "products", force: :cascade do |t|
     t.integer "shop_id"
@@ -53,8 +64,7 @@ ActiveRecord::Schema.define(version: 2019_07_15_072152) do
 
   create_table "syncs", force: :cascade do |t|
     t.integer "shop_id"
-    t.integer "queue_size"
-    t.datetime "finished_at"
+    t.integer "jobs_counter", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["shop_id"], name: "index_syncs_on_shop_id"

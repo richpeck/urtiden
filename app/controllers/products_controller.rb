@@ -112,7 +112,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Validation ##
     ## In case the "sync_all" button is pressed ##
-    if (@shop.queues.where(finished_at: nil).pluck(:queue_size).first || 0) > 0
+    if (@shop.syncs.where.not(jobs_counter: nil).pluck(:jobs_counter).first || 0) > 0
 
       ## Don't do anything & just return a notice ##
       flash[:notice] = "Queue already present"
@@ -121,20 +121,18 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
       # => Define Job
       # => This has to be done randomly because ActiveJob doesn't give a Job ID
-      @job = @shop.queues.create
+      @sync = @shop.syncs.create
 
       # => Cycle
       # => Adds the various id's to the queue and then the sidekiq system goes through them
-      @products.pluck(:id_product).each do |product|
-        #SyncJob.perform_later @job.id, product
+      @products.take(100).pluck(:id_product).each do |id|
+        #@sync.jobs.create product_id: id # => This calls the ActiveJob perform_later request
       end
-
-      # => Update Queue Size
-      @job.update queue_size: @products.count
 
     end
 
     # => Redirect back to index
+    flash[:notice] = "Sync Started!"
     redirect_to action: :index
   end
 

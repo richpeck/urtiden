@@ -28,12 +28,6 @@ module Urtiden
     ##########################################
     ##########################################
 
-      ## Libs ##
-      #require 'lograge/sql/extension' # => should be in initializer but we'll place it here for now
-
-    ##########################################
-    ##########################################
-
       # => Rails 6.0
       # => Allows us to use all the defaults etc
       config.load_defaults 6.0
@@ -71,7 +65,7 @@ module Urtiden
       # => Hosted at RedisLabs
       # => Both settings required to get it working
       Sidekiq.configure_client do |config|
-        config.redis = { url: "redis://#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :url)}", password:  Rails.application.credentials.dig(Rails.env.to_sym, :redis, :pass) }
+        config.redis = { url: "redis://#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :host)}:#{Rails.application.credentials.dig(Rails.env.to_sym, :redis, :port)}", password:  Rails.application.credentials.dig(Rails.env.to_sym, :redis, :pass) }
       end
 
       # => Server
@@ -89,8 +83,8 @@ module Urtiden
       config.lograge.enabled        = true
       config.lograge.ignore_actions = ['ProductsController#import']
 
-      ##########################################
-      ##########################################
+    ##########################################
+    ##########################################
 
   end
 end

@@ -96,10 +96,11 @@ gem 'sprockets-helpers', '~> 1.2', '>= 1.2.1'         # => Required to get asset
 
 ## Queues ##
 ## This allows us to use ActiveJob to handle the "sync all" feature ##
-gem 'sidekiq', '~> 5.2', '>= 5.2.5'         # => Sidekiq to manage the processing of jobs (held in Redis etc)
-gem 'redis', '~> 4.1'                       # => Redis (stores ActiveQueue jobs)
-gem 'activejob-traffic_control', '~> 0.1.3' # => Allows us to throttle the ActiveJob queue
-gem 'activejob-cancel', '~> 0.3.0'          # => Allows us to cancel jobs
+gem 'sidekiq', '~> 5.2', '>= 5.2.5'           # => Sidekiq to manage the processing of jobs (held in Redis etc)
+gem 'redis', '~> 4.1'                         # => Redis (stores ActiveQueue jobs)
+gem 'activejob-traffic_control', '~> 0.1.3'   # => Allows us to throttle the ActiveJob queue
+gem 'activejob-cancel', '~> 0.3.0'            # => Allows us to cancel jobs
+gem 'counter_culture', '~> 2.2', '>= 2.2.3'   # => Conditional counter cache (updates on value change, not just create/destroy)
 
 ## Scheduling ##
 ## Allows us to trigger the sync etc at specific times ##

@@ -16,10 +16,19 @@
 ############################################
 
 ## Sync ##
-## id | shop_id | active_job_id | queue_size | created_at | finished_at | updated_at
+## id | shop_id | jobs_count | finished_at | created_at | updated_at
 class Sync < ApplicationRecord
 
   ## Associations ##
-  belongs_to :shop
+  belongs_to :shop # => has counter_cache which looks for "finished_at" condition w/ counter_culture gem
+
+  ## Jobs ##
+  ## This allows us to store each individual job in a separate table ##
+  ## The goal is to record each queue's jobs in the table and update it as required ##
+  has_many :jobs, dependent: :delete_all
+  has_many :products, through: :jobs
 
 end
+
+############################################
+############################################

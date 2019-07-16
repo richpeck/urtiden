@@ -49,7 +49,11 @@ $(document).on 'turbolinks:load', ->
       <% %w(id icon brand name price stock synced_at created_at updated_at sync).each do |item| %>
         {data: '<%= item %>', name: '<%= item %>', className: '<%= item %>'}
       <% end %>
-    ]
+    ],
+    columnDefs: [{
+      targets: 'sync',
+      orderable: false
+    }]
     dom: "<'row'<'col-sm-4'l><'col-sm-4 text-center'<'toolbar'>><'col-sm-4'f>>" +
          "<'row'<'col-sm-12'tr>>" +
          "<'row'<'col-sm-4'i><'col-sm-4 text-center'><'col-sm-4'p>>" # https://stackoverflow.com/a/36619987/1143732

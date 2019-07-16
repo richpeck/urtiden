@@ -30,6 +30,6 @@ job_type :runner, %q{ cd :path && PATH=:env_path:"$PATH" rails runner -e :enviro
 job_type :script, %q{ cd :path && PATH=:env_path:"$PATH" RAILS_ENV=:environment bundle exec bin/:task :output }
 
 every :hour do # 1.minute 1.day 1.week 1.month 1.year is also supported
-  runner "Shop.import_all" # => Should be in the Activeadmin area but had to include here to ensure it worekd
+  runner "Shop.import_all" # => Cycle through each open job and if any shops don't have imports, start one
   runner "Product.sync_all unless Product.queue_size > 0" # => Allows us to queue products in Sidekiq queue
 end
