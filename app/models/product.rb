@@ -76,12 +76,12 @@ class Product < ApplicationRecord
         variants: [{
           barcode: ean,
           weight:  weight,
-          price:   retail_price,
+          price:   price,
           requires_shipping: true,
           inventory_management: "shopify",
           inventory_policy: "continue",
           sku: reference,
-          compare_at_price: price,
+          compare_at_price: retail_price,
           product_id: id_product,
           inventory_quantity: stock,
           weight_unit: "g"
