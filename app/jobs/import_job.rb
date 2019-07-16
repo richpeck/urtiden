@@ -1,27 +1,27 @@
 ############################################################
 ############################################################
-##                 _____                                  ##
-##                /  ___|                                 ##
-##                \ `--. _   _ _ __   ___                 ##
-##                 `--. \ | | | '_ \ / __|                ##
-##                /\__/ / |_| | | | | (__                 ##
-##                \____/ \__, |_| |_|\___|                ##
-##                        __/ |                           ##
-##                        |___/                           ##
+##          _____                           _             ##
+##         |_   _|                         | |            ##
+##           | | _ __ ___  _ __   ___  _ __| |_           ##
+##           | || '_ ` _ \| '_ \ / _ \| '__| __|          ##
+##          _| || | | | | | |_) | (_) | |  | |_           ##
+##          \___/_| |_| |_| .__/ \___/|_|   \__|          ##
+##                         | |                            ##
+##                         |_|                            ##
 ##                                                        ##
 ############################################################
 ############################################################
 
-## Import All ##
+## Import ##
 ## Because there are so many CSV records, we need to async it ##
 class ImportJob < ActiveJob::Base
   queue_as :import
 
   ## Too Many Requests ##
   ## Rescues the update and resubmits to the end of the queue ##
-  rescue_from(StandardError) do
-    retry_job queue: :import
-  end
+  #rescue_from(StandardError) do
+  #  retry_job queue: :import
+  #end
 
   ## Perform Queue ##
   ## This allows us to send ID's from Resque/Sidekik and process them sequentially ##
