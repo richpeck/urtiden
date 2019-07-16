@@ -14,7 +14,7 @@
     - # Rails
     = csrf_meta_tags
 
-  %body{ data: { "sync-queue": @shop.try(:queue_size) }}
+  %body{ data: { "sync-queue": @shop.try(:queue_size), "shop": @shop.shopify_domain }}
     .app-wrapper
       .app-content
         %main{role: "main", app: "shopify"}

@@ -86,6 +86,7 @@ $(document).on 'draw.dt init.dt', () ->
   if (sync_queue > 0)
     $("a.sync").remove() # remove "sync" buttons from "action" column
     $("#sync_all").remove() # stop "sync_all" button from being present
+    $("#cancel_sync").text("🕒 Queue Processing (" + sync_queue + " Items Remaining)") # queue size for button
   else
     $("#cancel_sync").remove()
 

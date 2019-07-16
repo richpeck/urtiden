@@ -39,7 +39,7 @@ class Shop < ActiveRecord::Base
 
     ## Queue Size ##
     def queue_size
-      nil
+      syncs.where.not(jobs_counter: 0).first || nil
     end
 
   #####################################
@@ -73,25 +73,13 @@ class Shop < ActiveRecord::Base
           raw_response: true
         )
 
-        ## Show response (might be huge) ##
-        ## This is where we should put all the products into the local db ##
-        ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
-        CSV.foreach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }) do |product|
-          new_products << products.new(product.to_h)
-        end
-
-        ## Products ##
-        ## Create values locally ##
-        ActiveRecord::Base.logger.silence do
-          products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
-        end
+        ## This has to be extracted into a worker ##
+        ## Simply too many items for this to work reliably ##
+        ImportJob.perform_later self[:id], raw.file.path
 
       rescue RestClient::ExceptionWithResponse => e
         Rails.logger.info e.response
       end
-
-      ## Return ##
-      return products
 
     end
 

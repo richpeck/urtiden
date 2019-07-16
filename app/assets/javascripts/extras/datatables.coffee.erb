@@ -32,6 +32,9 @@
 ## Triggers when the DOM is ready to be manipulated (IE is 100% effective) ##
 $(document).on 'turbolinks:load', ->
 
+  ############################
+  ############################
+
   ## DataTable ##
   ## Allows us to showcase the products for a store on the index page ##
   $('#products').dataTable
@@ -66,7 +69,7 @@ $(document).on 'turbolinks:load', ->
           <% [
               {title: "✔️ Sync All", path: sync_all_products_path, method: :put},
               {title: "❌ Delete All", path: destroy_all_products_path, method: :delete},
-              {title: "🕒 Queue Processing (#{'123'} Items Remaining)", path: cancel_sync_products_path, method: :delete, id: "cancel_sync", message: "Cancel?"},
+              {title: "🕒 Queue Processing (Items Remaining)", path: cancel_sync_products_path, method: :delete, id: "cancel_sync", message: "Cancel?"},
               {title: "💾 Import All", path: import_products_path}
             ].each do |hash|
           %>
