@@ -47,7 +47,7 @@ class Shop < ActiveRecord::Base
 
     ## Import ##
     ## Define var as argument ##
-    def import
+    def import new_products=[]
 
       ## curl -k --data \
       ## "data=username%3DUSERNAME%26password%3DPASSWORD%26pid%3DPORTAL ID%26lid%3DLANGUAGE ID" \ ##
