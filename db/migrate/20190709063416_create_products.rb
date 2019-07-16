@@ -44,7 +44,7 @@ class CreateProducts < ActiveRecord::Migration::Current
         ## Content ##
         ## Allows us to manage the data etc ##
         t.integer :ean, limit: 8
-        t.string  :type 
+        t.string  :type
         t.text    :name
         t.text    :slug
         t.string  :reference
@@ -74,7 +74,7 @@ class CreateProducts < ActiveRecord::Migration::Current
 
         ## Index ##
         ## Gives us unique reference for products ##
-        t.index :id_product, unique: true
+        #t.index :id_product, unique: true
 
       end
 
