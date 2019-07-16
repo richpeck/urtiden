@@ -77,7 +77,7 @@ class Shop < ActiveRecord::Base
         ## This is where we should put all the products into the local db ##
         ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
         CSV.foreach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }) do |product|
-          new_products << @shop.products.new(product.to_h)
+          new_products << products.new(product.to_h)
         end
 
         ## Import ##
@@ -86,7 +86,7 @@ class Shop < ActiveRecord::Base
           new_products.each { |product| ImportJob.perform_later id, product }
         else
           ActiveRecord::Base.logger.silence do
-            @shop.products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
+            products.import new_products, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
           end
         end
 
