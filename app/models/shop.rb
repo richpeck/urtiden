@@ -77,12 +77,12 @@ class Shop < ActiveRecord::Base
         ## Show response (might be huge) ##
         ## This is where we should put all the products into the local db ##
         ## Converts allow us to change the "attributes" column to attribs - https://stackoverflow.com/a/37059741/1143732 ##
-        new_products = CSV.foreach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
+        csv = CSV.foreach(raw.file.path, headers: :first_row, col_sep: ";", header_converters: lambda { |name| {"attributes" => "attribs"}.fetch(name, name).to_sym }).map(&:to_h)
 
-
-        products.import new_products, batch_size: 500, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
-
-
+        ## Import ##
+        ## Allows us to import into the db ##
+        ## batch_size looks like it could help ##
+        products.import csv, batch_size: 1000, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price]
 
       rescue RestClient::ExceptionWithResponse => e
         Rails.logger.info e.response
