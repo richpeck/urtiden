@@ -29,15 +29,17 @@ class ImportJob < ActiveJob::Base
 
     ## Vars ##
     @shop = Shop.find shop
-    @product = @shop.imports.find product
+    @import = @shop.imports.find product
+
+    Rails.logger.info @import
 
     ## Products ##
     ## Create values locally ##
-    @shop.products.import @product, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
+    @shop.products.import @import, validate: false, on_duplicate_key_update: Rails.env.development? ? { conflict_target: [:id_product], columns: [:stock, :price] } : [:stock, :price] # required to get it working on Heroku
 
     ## Remove Import ##
     ## This is required to ensure we keep the db clean ##
-    @product.destroy
+    @import.destroy
 
   end
 
