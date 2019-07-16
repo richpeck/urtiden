@@ -33,9 +33,6 @@ class SyncJob < ActiveJob::Base
     @job = Sync.find sync_id
     @product = @job.shop.products.find product_id
 
-    # => Queue Size
-    @job.decrement(:queue_size) if @product.sync!
-
     # => Update
     @job.update(finished_at: Time.now) if @job.queue_size <= 0
 

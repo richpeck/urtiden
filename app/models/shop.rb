@@ -22,12 +22,6 @@ class Shop < ActiveRecord::Base
   #####################################
   #####################################
 
-    ## Virtual Attribute ##
-    attr_accessor :imported
-
-  #####################################
-  #####################################
-
     ## Associations ##
     has_many :products, dependent: :delete_all
     has_many :syncs, dependent: :delete_all

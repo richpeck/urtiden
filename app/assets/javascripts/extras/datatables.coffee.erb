@@ -64,7 +64,7 @@ $(document).on 'turbolinks:load', ->
       $("div.toolbar")
         .html('
           <% [
-              {title: "✔️ Sync All", path: sync_all_products_path},
+              {title: "✔️ Sync All", path: sync_all_products_path, method: :put},
               {title: "❌ Delete All", path: destroy_all_products_path, method: :delete},
               {title: "🕒 Queue Processing (#{'123'} Items Remaining)", path: cancel_sync_products_path, method: :delete, id: "cancel_sync", message: "Cancel?"},
               {title: "💾 Import All", path: import_products_path}

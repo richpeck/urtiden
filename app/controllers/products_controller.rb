@@ -83,9 +83,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
   ## Destroy All ##
   ## Removes all products per shop ##
   def destroy_all
-    destroyed = @products.delete_all # => returns number of items deleted
-
-    flash[:notice] = pluralize(number_with_delimiter(destroyed), "Products") + " Removed"
+    flash[:notice] = pluralize(number_with_delimiter(@products.delete_all), "Products") + " Removed"
     redirect_to action: :index
   end
 
