@@ -50,7 +50,7 @@ class Shop < ActiveRecord::Base
     ## Because ShopifyAPI needs to be initialized outside of scope sometimes, this is called to do it ##
     ## https://github.com/Shopify/shopify_app/issues/334 ##
     def with_shopify!
-      session = ShopifyAPI::Session.new(shopify_domain, shopify_token)
+      session = ShopifyAPI::Session.new(domain: shopify_domain, token: shopify_token, api_version: api_version)
       ShopifyAPI::Base.activate_session(session)
     end
 

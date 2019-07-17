@@ -123,7 +123,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
       # => Cycle
       # => Adds the various id's to the queue and then the sidekiq system goes through them
-      @products.limit(100).pluck(:id).each do |id|
+      @products.limit(5).pluck(:id).each do |id|
         @sync.jobs.create product_id: id # => This calls the ActiveJob perform_later request
       end
 
