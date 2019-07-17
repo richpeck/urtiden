@@ -40,7 +40,7 @@ module Urtiden
       # => DataTables
       # => https://github.com/jbox-web/ajax-datatables-rails#configuration
       AjaxDatatablesRails.configure do |config|
-        config.db_adapter = Rails.env.staging? ? :mysql2 : Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym # => Need to fix this -- Heroku eager loads everything
+        config.db_adapter = Rails.env.development? ? Rails.configuration.database_configuration[Rails.env]['adapter'].to_sym : :mysql2 # => Need to fix this -- Heroku eager loads everything
       end
 
       # => Assets
