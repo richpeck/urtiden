@@ -72,8 +72,7 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Cancel All ##
     ## Stops current queue + removes it completely ##
     def cancel_sync
-      destroyed = @shop.jobs.unfinished.destroy_all
-      flash[:notice] = "Sync Cancelled (#{destroyed.length} Items)"
+      flash[:notice] = "Sync Cancelled (#{number_with_delimiter(@shop.jobs.unfinished.delete_all)} Items)"
       redirect_to action: :index
     end
 
@@ -119,7 +118,13 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
       # => Cycle
       # => Adds the various id's to the queue and then the sidekiq system goes through them
-      @shop.jobs.import @products.limit(500).pluck(:id).map {|id| { product_id: id }} # => This calls the ActiveJob perform_later request
+      @shop.jobs.import @products.pluck(:id).map {|id| { product_id: id }}, batch_size: 5000, validate: false # => This calls the ActiveJob perform_later request
+
+      # => Jobs
+      # => This is required because activerecord-import does not trigger callbacks
+      @shop.jobs.unfinished.ids do |callback|
+        SyncJob.perform_later callback
+      end
 
     end
 

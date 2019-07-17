@@ -35,30 +35,6 @@ class Job < ApplicationRecord
   ###############################
   ###############################
 
-    ## After Create ##
-    ## Adds the newly created job record to ActiveJob Queue ##
-    after_create do
-
-      ## Add the job to the queue ##
-      job = SyncJob.perform_later self[:id]
-
-      ## Record its active_job_id here ##
-      update active_job_id: job
-
-    end
-
-  ###############################
-  ###############################
-
-    ## Before Destroy ##
-    ## Get rid of the Sidekiq queue member for this ##
-    before_destroy do
-      puts "Delete Queue"
-    end
-
-  ###############################
-  ###############################
-
 end
 
 ############################################
