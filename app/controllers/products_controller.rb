@@ -72,8 +72,8 @@ class ProductsController < ShopifyApp::AuthenticatedController
     ## Cancel All ##
     ## Stops current queue + removes it completely ##
     def cancel_sync
-      Sync.delete_all
-      flash[:notice] = "Sync Cancelled"
+      destroyed = @shop.jobs.unfinished.destroy_all
+      flash[:notice] = "Sync Cancelled (#{destroyed.length} Items)"
       redirect_to action: :index
     end
 
@@ -110,27 +110,21 @@ class ProductsController < ShopifyApp::AuthenticatedController
 
     ## Validation ##
     ## In case the "sync_all" button is pressed ##
-    if (@shop.syncs.where.not(jobs_counter: nil).pluck(:jobs_counter).first || 0) > 0
+    if @shop.jobs.unfinished.size < 0
 
       ## Don't do anything & just return a notice ##
-      flash[:notice] = "Queue already present"
+      flash[:notice] = "Items Already Queued"
 
     else
 
-      # => Define Job
-      # => This has to be done randomly because ActiveJob doesn't give a Job ID
-      @sync = @shop.syncs.create
-
       # => Cycle
       # => Adds the various id's to the queue and then the sidekiq system goes through them
-      @products.limit(500).pluck(:id).each do |id|
-        @sync.jobs.create product_id: id # => This calls the ActiveJob perform_later request
-      end
+      @shop.jobs.import @products.limit(500).pluck(:id).map {|id| { product_id: id }} # => This calls the ActiveJob perform_later request
 
     end
 
     # => Redirect back to index
-    flash[:notice] = "Sync Started (#{@sync.jobs.size} Queued)!"
+    flash[:notice] = "Sync Started (#{@shop.jobs.unfinished.size} Queued)!"
     redirect_to action: :index
   end
 

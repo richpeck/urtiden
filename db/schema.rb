@@ -13,14 +13,14 @@
 ActiveRecord::Schema.define(version: 2019_07_16_075914) do
 
   create_table "jobs", force: :cascade do |t|
-    t.integer "sync_id"
+    t.integer "shop_id"
     t.integer "product_id"
     t.string "active_job_id"
     t.datetime "finished_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["product_id"], name: "index_jobs_on_product_id"
-    t.index ["sync_id"], name: "index_jobs_on_sync_id"
+    t.index ["shop_id"], name: "index_jobs_on_shop_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -30,7 +30,6 @@ ActiveRecord::Schema.define(version: 2019_07_16_075914) do
     t.integer "id_supplier"
     t.string "id_shopify"
     t.integer "ean", limit: 8
-    t.string "type"
     t.text "name"
     t.text "slug"
     t.string "reference"
@@ -45,6 +44,7 @@ ActiveRecord::Schema.define(version: 2019_07_16_075914) do
     t.integer "min_qty"
     t.integer "speed_shipping"
     t.text "attribs", limit: 1500
+    t.text "response"
     t.text "icon"
     t.text "image"
     t.datetime "img_last_update"
@@ -61,14 +61,6 @@ ActiveRecord::Schema.define(version: 2019_07_16_075914) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["shopify_domain"], name: "index_shops_on_shopify_domain", unique: true
-  end
-
-  create_table "syncs", force: :cascade do |t|
-    t.integer "shop_id"
-    t.integer "jobs_counter", default: 0, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["shop_id"], name: "index_syncs_on_shop_id"
   end
 
 end

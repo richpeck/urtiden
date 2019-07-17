@@ -44,7 +44,6 @@ class CreateProducts < ActiveRecord::Migration::Current
         ## Content ##
         ## Allows us to manage the data etc ##
         t.integer :ean, limit: 8
-        t.string  :type
         t.text    :name
         t.text    :slug
         t.string  :reference
@@ -59,6 +58,7 @@ class CreateProducts < ActiveRecord::Migration::Current
         t.integer :min_qty
         t.integer :speed_shipping
         t.text    :attribs, limit: 1500 # => attributes conflicts with ActiveRecord
+        t.text    :response # => sync response
 
         ## Images ##
         ## Information about product imagery ##
@@ -74,7 +74,7 @@ class CreateProducts < ActiveRecord::Migration::Current
 
         ## Index ##
         ## Gives us unique reference for products ##
-        t.index [:shop_id, :id_product], unique: true # => This gives us a contraint between store_id and id_product (allows for activerecord-import) -> https://stackoverflow.com/a/6170023/1143732
+        t.index (Rails.env.development? ? :id_product : [:shop_id, :id_product]), unique: true # => This gives us a contraint between store_id and id_product (allows for activerecord-import) -> https://stackoverflow.com/a/6170023/1143732
 
       end
 

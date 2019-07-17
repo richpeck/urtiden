@@ -23,9 +23,8 @@ class Shop < ActiveRecord::Base
   #####################################
 
     ## Associations ##
-    has_many :imports,  dependent: :delete_all # => required to save CSV data
     has_many :products, dependent: :delete_all
-    has_many :syncs,    dependent: :delete_all
+    has_many :jobs,     dependent: :delete_all
 
   #####################################
   #####################################
@@ -40,7 +39,7 @@ class Shop < ActiveRecord::Base
 
     ## Queue Size ##
     def queue_size
-      syncs.where.not(jobs_counter: 0).first || nil
+      jobs.where(finished_at: nil).size || nil
     end
 
   #####################################
@@ -49,7 +48,7 @@ class Shop < ActiveRecord::Base
     ## Shopify Session ##
     ## Because ShopifyAPI needs to be initialized outside of scope sometimes, this is called to do it ##
     ## https://github.com/Shopify/shopify_app/issues/334 ##
-    def with_shopify!
+    def sync_with_shopify!
       session = ShopifyAPI::Session.new(domain: shopify_domain, token: shopify_token, api_version: api_version)
       ShopifyAPI::Base.activate_session(session)
     end

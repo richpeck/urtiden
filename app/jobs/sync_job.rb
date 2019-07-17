@@ -21,9 +21,9 @@ class SyncJob < ActiveJob::Base
 
   ## Too Many Requests ##
   ## Rescues the update and resubmits to the end of the queue ##
-  #rescue_from(StandardError) do
-  #  retry_job queue: :sync
-  #end
+  rescue_from(StandardError) do
+    retry_job queue: :sync
+  end
 
   ## Perform Queue ##
   ## This allows us to send ID's from Resque/Sidekik and process them sequentially ##
@@ -36,7 +36,7 @@ class SyncJob < ActiveJob::Base
 
     ## This is called to ensure we can communicate with Shopify ##
     ## It just manually loads the ShopifyAPI class (which would have normally been done at controller level) ##
-    @job.sync.shop.with_shopify!
+    @job.shop.sync_with_shopify!
     @job.update(finished_at: Time.now) if @job.product.sync!
 
   end

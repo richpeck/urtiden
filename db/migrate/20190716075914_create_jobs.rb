@@ -27,7 +27,7 @@ class CreateJobs < ActiveRecord::Migration::Current
 
       ## Create Table ##
       create_table :jobs do |t|
-        t.references :sync          # => belongs to "syncs" model
+        t.references :shop          # => belongs to "shop" model
         t.references :product       # => belongs to "product" model (acts as has_many though relation)
         t.string     :active_job_id # => required for each activejob instance
         t.datetime   :finished_at   # => gives us the ability to record the completion of the task

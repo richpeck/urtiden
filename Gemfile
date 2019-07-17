@@ -100,7 +100,6 @@ gem 'sidekiq', '~> 5.2', '>= 5.2.5'           # => Sidekiq to manage the process
 gem 'redis', '~> 4.1'                         # => Redis (stores ActiveQueue jobs)
 gem 'activejob-traffic_control', '~> 0.1.3'   # => Allows us to throttle the ActiveJob queue
 gem 'activejob-cancel', '~> 0.3.0'            # => Allows us to cancel jobs
-gem 'counter_culture', '~> 2.2', '>= 2.2.3'   # => Conditional counter cache (updates on value change, not just create/destroy)
 
 ## Scheduling ##
 ## Allows us to trigger the sync etc at specific times ##
